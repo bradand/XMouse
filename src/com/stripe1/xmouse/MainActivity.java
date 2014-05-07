@@ -79,14 +79,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	OnColorChangedListener, 
 	MouseSectionFragment.OnXMouseClickListener,
 	MouseSectionFragment.OnXMouseMoveListener {
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link android.support.v4.app.FragmentPagerAdapter} derivative, which
-     * will keep every loaded fragment in memory. If this becomes too memory
-     * intensive, it may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
+    
 	static ItemAdapter mItemAdapter;
 	static CoolDragAndDropGridView mCoolDragAndDropGridView;
 	static List<CustomItem> mItems = new LinkedList<CustomItem>();
@@ -120,7 +113,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public static String setting_key_passphrase="";
     public static boolean setting_use_keys = false;
     public static String setting_key_filename = "";
-    
     public static boolean setting_keyboard_show_details;
     static boolean setting_command_overlay=true;
     //static boolean setting_log_staydown = true;
