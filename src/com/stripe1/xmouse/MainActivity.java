@@ -217,7 +217,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
        return super.onKeyUp(keyCode, event);
     }
     public void getPreferences(){
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		
+    	try{
+    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		setting_host= prefs.getString("setting_host", "");
 		setting_user= prefs.getString("setting_user", "");
@@ -253,6 +255,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		setting_keyboard_locked=prefs.getBoolean("keyboard_layout_locked",false);
 		//setting_log_staydown=prefs.getBoolean("log_staydown", true);
 		//setting_command_overlay=prefs.getBoolean("command_overlay", false);
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		Toast.makeText(getApplicationContext(), "There was a problem retreiving your settings", Toast.LENGTH_LONG).show();
+    	}
 	}
     /*@Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -1395,9 +1401,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			            	//parse line in to customItems
 			            	String[] temp =line.split("<xmousesep>");
 			            	views.add(new CustomItem( 0,Integer.valueOf(temp[2]), temp[0], temp[1]));
-			            	Log.d("loadKeyboardLayout","using new <xmousesep> separator");
+			            	//Log.d("loadKeyboardLayout","using new <xmousesep> separator");
 		            	}else{
-		            		Log.d("loadKeyboardLayout","using old comma separator");
+		            		//Log.d("loadKeyboardLayout","using old comma separator");
 		            		String[] temp =line.split(",");
 		            		views.add(new CustomItem( 0,Integer.valueOf(temp[2]), temp[0], temp[1]));
 		            		

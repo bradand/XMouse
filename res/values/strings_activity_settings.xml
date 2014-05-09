@@ -31,7 +31,7 @@
     <string name="pref_description_keyboard_autoclear">Clear keyboard input on send</string>
     <string name="pref_title_keyboard_autoclear">Auto clear keystrokes</string>
     
-    <string name="pref_defualt_xdotool_initial">export DISPLAY=$(who -u | grep -o \"$USER\\s\\s:[0-9]\\+\" | grep -o \":[0-9]\\+\")</string>
+    <string name="pref_defualt_xdotool_initial">export DISPLAY=':0'</string>
     <string name="pref_title_xdotool_initial">Initialization command</string>
     
     <string-array name="pref_sensitivity_list_titles">
