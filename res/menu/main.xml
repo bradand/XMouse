@@ -22,12 +22,11 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="Restore Default Keyboard"/>
-    <item
-        android:id="@+id/action_settings"
+	<item
+        android:id="@+id/action_edit_layout"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/action_settings"/>
-    
+        android:title="Edit Keyboard Layout"/>
     <item
         android:id="@+id/action_save_preset_one"
         android:orderInCategory="100"
@@ -58,5 +57,10 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="Load Layout 3"/>
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_settings"/>
 
 </menu>

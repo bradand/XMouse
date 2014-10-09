@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -78,8 +79,11 @@ import android.widget.Toast;
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener, 
 	OnColorChangedListener, 
 	MouseSectionFragment.OnXMouseClickListener,
-	MouseSectionFragment.OnXMouseMoveListener {
+	MouseSectionFragment.OnXMouseMoveListener,
+	myDialogFragment.NoticeDialogListener {
     
+	public static FragmentManager fm;
+	
 	static ItemAdapter mItemAdapter;
 	static CoolDragAndDropGridView mCoolDragAndDropGridView;
 	static List<CustomItem> mItems = new LinkedList<CustomItem>();
@@ -311,6 +315,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             .setTabListener(this));
         }
         
+        fm = getSupportFragmentManager();
         
     }
     public void initDb(){
@@ -412,6 +417,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	    		SharedPreferences.Editor editor = prefs.edit();
 				editor.putBoolean("keyboard_layout_locked", setting_keyboard_locked);
 				editor.commit();
+	    		break;
+	    	case R.id.action_edit_layout:
+	    		showNoticeDialog(getBaseContext());
+	    		
 	    		break;
 	    	case R.id.action_exit:
 	    		
@@ -848,8 +857,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public void colorChanged(int color) {
 		
 	}
-	public void xMouseKeyboardSend(View v){
-		
+	/*public void xMouseKeyboardSend(View v){
 		
 		switch(v.getId()){
 			case R.id.keyboard_send_f1:
@@ -905,9 +913,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			case R.id.keyboard_send_backspace:
 				executeShellCommand("xdotool key BackSpace");
 				break;
-			/*case R.id.keyboard_send_space:
-				executeShellCommand("xdotool key space");
-				break;*/
+			//case R.id.keyboard_send_space:
+				//executeShellCommand("xdotool key space");
+				//break;
 			case R.id.keyboard_send_enter:
 				executeShellCommand("xdotool key Return");
 				break;
@@ -951,7 +959,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 				executeShellCommand("xdotool key "+c);
 				break;
 		}
-	}
+	}*/
 	private static void useKeyboardSendText() {
 		CharSequence contents = ET.getText();
 		String t = contents.toString();
@@ -1024,6 +1032,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		    final EditText nameBox = (EditText) layout.findViewById(R.id.new_command_name);
 		    final EditText script = (EditText) layout.findViewById(R.id.new_command_command);
 		    final EditText spans = (EditText) layout.findViewById(R.id.new_command_width);
+		    final EditText color = (EditText) layout.findViewById(R.id.new_command_hex);
 		    //Building dialog
 		    AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		    builder.setView(layout);
@@ -1035,7 +1044,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		            String name = nameBox.getText().toString();
 		            String content = script.getText().toString();
 		            String spanStr = spans.getText().toString();
-		            
+		            String colorStr = color.getText().toString();
 		           
 		            if(!spanStr.isEmpty()){
 		            
@@ -1044,7 +1053,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			            	
 			            	if(span>0 && span<11){
 			                
-				            	mItems.add(new CustomItem( 0,span, name, content));
+				            	mItems.add(new CustomItem( 0,span, name, content,colorStr));
 				            	 
 				            	
 				            	mItemAdapter = new ItemAdapter(MainActivity.this, mItems);
@@ -1354,23 +1363,29 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		}
 		return false;
 	}
-	public void saveKeyboardLayout(){
+	public static String getKeyboardTextValue(){
+	
 		StringBuilder sb = new StringBuilder();
 		for(int x=0;x<mItems.size();x++){
 			sb.append(mItems.get(x).getmTitle())
-				.append("<xmousesep>").append(mItems.get(x).getmCommand()).
-				append("<xmousesep>").append(mItems.get(x).getmSpans());
+				.append("<xmousesep>").append(mItems.get(x).getmCommand())
+				.append("<xmousesep>").append(mItems.get(x).getmSpans())
+				.append("<xmousesep>").append(mItems.get(x).getmColor());
 			
 			if(x!=mItems.size()-1){
 				sb.append("\n");
 			}
 		}
+		return sb.toString();
+	}
+	public void saveKeyboardLayout(){
+		
 		//Toast.makeText(getBaseContext(), sb.toString(), Toast.LENGTH_LONG).show();
 		
 		try{
 			Log.d("saveKeyboardLayout",KEYLOAYOUTFILENAME);
 			FileOutputStream fos = openFileOutput(KEYLOAYOUTFILENAME, Context.MODE_PRIVATE);
-			fos.write(sb.toString().getBytes());
+			fos.write(getKeyboardTextValue().getBytes());
 			fos.close();
 			//Toast.makeText(getBaseContext(), "Saved", Toast.LENGTH_SHORT).show();
 		}catch(Exception e){
@@ -1378,7 +1393,58 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 		}
 	}
-	
+	public static LinkedList<CustomItem> loadKeyboardLayout(Context mCont,String stream){
+		LinkedList<CustomItem> views = new LinkedList<CustomItem>();
+		try{
+            //BufferedReader reader = new BufferedReader(stream);
+            String[] lines = stream.split("\n");
+            String line=null;
+            for(int i=0;i<lines.length;i++){
+            	line = lines[i];
+                //sb.append(line).append("\n");
+            	if(line.contains("<xmousesep>")){
+	            	//parse line in to customItems
+            		//Log.d("loadKeyboardLayout",line);
+	            	String[] temp =line.split("<xmousesep>");
+	            	//iconId,span int,title string, script
+	            	
+	            	if(Integer.valueOf(temp[2])<1 || Integer.valueOf(temp[2])>10){
+	            		Toast.makeText(mCont, "You have included an invalid span integer, try again", Toast.LENGTH_SHORT).show();
+	            		return null;
+	            		
+	            	}
+	            	
+	            	if(temp.length>3){
+	            		views.add(new CustomItem( 0,Integer.valueOf(temp[2]), temp[0], temp[1],temp[3]));
+	            	}else{
+	            		views.add(new CustomItem( 0,Integer.valueOf(temp[2]), temp[0], temp[1],"#ffffff"));
+	            		
+	            	}
+	            	//Log.d("loadKeyboardLayout","using new <xmousesep> separator");
+            	}else{
+            		//Log.d("loadKeyboardLayout","using old comma separator");
+            		String[] temp =line.split(",");
+            		views.add(new CustomItem( 0,Integer.valueOf(temp[2]), temp[0], temp[1],"#ffffff"));
+            		
+            	}
+            }
+            //fis.close();
+        } catch(OutOfMemoryError om){
+            om.printStackTrace();
+            Toast.makeText(mCont, om.toString(), Toast.LENGTH_LONG).show();
+            return null;
+        } catch(Exception ex){
+            ex.printStackTrace();
+            Toast.makeText(mCont, ex.toString(), Toast.LENGTH_LONG).show();
+            return null;
+        }
+		
+		if(views.size()<1){
+		 views = loadDefaultKeyboardLayout(mCont);
+		}
+		
+		return views;
+	}
 	public static LinkedList<CustomItem> loadKeyboardLayout(Context mCont,boolean def){
 		
 		if(def){
@@ -1400,12 +1466,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		            	if(line.contains("<xmousesep>")){
 			            	//parse line in to customItems
 			            	String[] temp =line.split("<xmousesep>");
-			            	views.add(new CustomItem( 0,Integer.valueOf(temp[2]), temp[0], temp[1]));
+			            	if(temp.length>3){
+			            		views.add(new CustomItem( 0,Integer.valueOf(temp[2]), temp[0], temp[1],temp[3]));
+			            	}else{
+			            		views.add(new CustomItem( 0,Integer.valueOf(temp[2]), temp[0], temp[1],"#FFFFFF"));
+			            		
+			            	}
 			            	//Log.d("loadKeyboardLayout","using new <xmousesep> separator");
 		            	}else{
 		            		//Log.d("loadKeyboardLayout","using old comma separator");
 		            		String[] temp =line.split(",");
-		            		views.add(new CustomItem( 0,Integer.valueOf(temp[2]), temp[0], temp[1]));
+		            		views.add(new CustomItem( 0,Integer.valueOf(temp[2]), temp[0], temp[1],"#FFFFFF"));
 		            		
 		            	}
 		            }
@@ -1432,32 +1503,59 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public static LinkedList<CustomItem> loadDefaultKeyboardLayout(Context mCont){
 		LinkedList<CustomItem> views = new LinkedList<CustomItem>();
 		//10 cols per row
-		views.add(new CustomItem( 0,2, "F1", "xdotool key F1"));
-		views.add(new CustomItem( 0,2, "F2", "xdotool key F2"));
-		views.add(new CustomItem( 0,2, "F3", "xdotool key F3"));
-		views.add(new CustomItem( 0,2, "F4", "xdotool key F4"));
-		views.add(new CustomItem( 0,2, "F5", "xdotool key F5"));
+		views.add(new CustomItem( 0,2, "F1", "xdotool key F1","#EEEEEE"));
+		views.add(new CustomItem( 0,2, "F2", "xdotool key F2","#EEEEEE"));
+		views.add(new CustomItem( 0,2, "F3", "xdotool key F3","#EEEEEE"));
+		views.add(new CustomItem( 0,2, "F4", "xdotool key F4","#EEEEEE"));
+		views.add(new CustomItem( 0,2, "F5", "xdotool key F5","#EEEEEE"));
 		
-		views.add(new CustomItem( 0,2, "[Prev]", "xdotool key XF86AudioPrev"));
-		views.add(new CustomItem( 0,3, "[Pause]", "xdotool key XF86AudioPause"));
-		views.add(new CustomItem( 0,3, "[Play]", "xdotool key XF86AudioPlay"));
-		views.add(new CustomItem( 0,2, "[Next]", "xdotool key XF86AudioNext"));
+		views.add(new CustomItem( 0,2, "[Prev]", "xdotool key XF86AudioPrev","#FFFFFF"));
+		views.add(new CustomItem( 0,3, "[Pause]", "xdotool key XF86AudioPause","#FFFFFF"));
+		views.add(new CustomItem( 0,3, "[Play]", "xdotool key XF86AudioPlay","#FFFFFF"));
+		views.add(new CustomItem( 0,2, "[Next]", "xdotool key XF86AudioNext","#FFFFFF"));
 		
-		views.add(new CustomItem( 0,3, "Esc", "xdotool key Escape"));
-		views.add(new CustomItem( 0,3, "Alt|F4", "xdotool key alt+F4"));
-		views.add(new CustomItem( 0,4, "Backspace", "xdotool key BackSpace"));
+		views.add(new CustomItem( 0,3, "Esc", "xdotool key Escape","#FFFFFF"));
+		views.add(new CustomItem( 0,3, "Alt|F4", "xdotool key alt+F4","#FFFFFF"));
+		views.add(new CustomItem( 0,4, "Backspace", "xdotool key BackSpace","#FFFFFF"));
 		
-		views.add(new CustomItem( 0,5, "<Back", "xdotool key XF86Back"));
-		views.add(new CustomItem( 0,5, "Forward>", "xdotool key XF86Forward"));
+		views.add(new CustomItem( 0,5, "<Back", "xdotool key XF86Back","#FFFFFF"));
+		views.add(new CustomItem( 0,5, "Forward>", "xdotool key XF86Forward","#FFFFFF"));
 		
-		views.add(new CustomItem( 0,3, "-Mute-", "xdotool key XF86AudioMute"));
-		views.add(new CustomItem( 0,4, "Up", "xdotool key Up"));
-		views.add(new CustomItem( 0,3, "Enter", "xdotool key Return"));
+		views.add(new CustomItem( 0,3, "-Mute-", "xdotool key XF86AudioMute","#FFFFFF"));
+		views.add(new CustomItem( 0,4, "Up", "xdotool key Up","#FFFFFF"));
+		views.add(new CustomItem( 0,3, "Enter", "xdotool key Return","#FFFFFF"));
 		
-		views.add(new CustomItem( 0,3, "Left", "xdotool key Left"));
-		views.add(new CustomItem( 0,4, "Down", "xdotool key Down"));
-		views.add(new CustomItem( 0,3, "Right", "xdotool key Right"));
+		views.add(new CustomItem( 0,3, "Left", "xdotool key Left","#FFFFFF"));
+		views.add(new CustomItem( 0,4, "Down", "xdotool key Down","#FFFFFF"));
+		views.add(new CustomItem( 0,3, "Right", "xdotool key Right","#FFFFFF"));
 		
 		return views;
+	}
+	public static void showNoticeDialog(Context mCont) {
+        // Create an instance of the dialog fragment and show it
+    	myDialogFragment dialog = new myDialogFragment();
+    	dialog.setmCont(mCont);
+    	dialog.setText(getKeyboardTextValue());
+    	
+        dialog.show(fm, "NoticeDialogFragment");
+    }
+	@Override
+	public void onDialogPositiveClickValid(
+			com.stripe1.xmouse.myDialogFragment dialog, String layoutText) {
+		//Log.d("onDialogPositiveClickValid",layoutText);
+		
+		LinkedList<CustomItem> temp = loadKeyboardLayout(MainActivity.this,layoutText);
+		if(temp!=null){
+			mItems = temp;
+		
+	    	mItemAdapter = new ItemAdapter(MainActivity.this, mItems);
+	        mCoolDragAndDropGridView.setAdapter(mItemAdapter);
+	    	mItemAdapter.notifyDataSetChanged();
+		}
+	}
+	@Override
+	public void onDialogNegativeClick(com.stripe1.xmouse.myDialogFragment dialog) {
+		
+		
 	}
 }

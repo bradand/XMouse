@@ -14,7 +14,7 @@
 	<CheckBoxPreference
         android:defaultValue="false"
         android:key="keyboard_layout_locked"
-        android:summary="Can the kayboard layout be modified?"
+        android:summary="Disable to drag and drop keys"
         android:title="Layout is Locked" />
 	
 </PreferenceScreen>

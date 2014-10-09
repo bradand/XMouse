@@ -3,12 +3,14 @@ package com.stripe1.xmouse.util;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,7 +76,7 @@ public class ItemAdapter extends ArrayAdapter<CustomItem> implements SpanVariabl
 
 		if (convertView == null) {
 			convertView = mLayoutInflater.inflate(R.layout.item, parent, false);
-
+			
 			itemViewHolder = new ItemViewHolder();
 			itemViewHolder.itemTitle = (TextView) convertView.findViewById(R.id.textViewTitle);
 			itemViewHolder.itemCommand = (TextView) convertView.findViewById(R.id.MarqueeText);
@@ -112,6 +114,12 @@ public class ItemAdapter extends ArrayAdapter<CustomItem> implements SpanVariabl
 			
 		});
 		
+		RelativeLayout layoutHolder = (RelativeLayout) convertView.findViewById(R.id.textViewHolderLayout);
+		try{
+			layoutHolder.setBackgroundColor(Color.parseColor(item.getmColor()));
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		return convertView;
 	}
 

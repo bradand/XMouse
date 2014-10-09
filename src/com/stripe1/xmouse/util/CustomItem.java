@@ -10,13 +10,25 @@ public class CustomItem{
 	int mSpans;
 	String mTitle;
 	String mCommand;
-	public CustomItem(int icon, int spans, String title, String desc){
+	String mColor="#FFFFFF";
+	public CustomItem(int icon, int spans, String title, String desc,String color){
 		mIcon=icon;
 		mSpans=spans;
 		mTitle= title;
 		mCommand=desc;
+		if(color!=null){
+			mColor=color;
+		}
 	}
 	
+	public String getmColor() {
+		return mColor;
+	}
+
+	public void setmColor(String mColor) {
+		this.mColor = mColor;
+	}
+
 	public int getmIcon() {
 		return mIcon;
 	}

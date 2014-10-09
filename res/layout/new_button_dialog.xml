@@ -41,5 +41,19 @@
     	android:id="@+id/new_command_width"
     	
     	/>
+	<TextView
+	    android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:text="Button color, #RRGGBB"
+    	/>
+	
+	<EditText 
+	    android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	
+    	android:id="@+id/new_command_hex"
+    	android:text="#FFFFFF"
+    	
+    	/>
 	
 </LinearLayout>
