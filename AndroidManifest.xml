@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.stripe1.xmouse"
+    android:versionCode="14"
+    android:versionName="1.1.5" >
+
+    <uses-sdk
+        android:minSdkVersion="12"
+        android:targetSdkVersion="17" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.stripe1.xmouse.MainActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.stripe1.xmouse.SettingsActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName="com.stripe1.xmouse.MainActivity" >
+            
+        </activity>
+        <activity
+            android:name="com.stripe1.xmouse.NewHostSettingsActivity"
+            android:label="@string/title_activity_new_host_settings"
+            android:configChanges="orientation|screenSize"
+            android:parentActivityName="com.stripe1.xmouse.SettingsActivity" >
+            
+        </activity>
+    </application>
+
+</manifest>

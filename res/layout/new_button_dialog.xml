@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+	<TextView
+	    android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:text="Button Title, required"
+    	/>
+	
+	<EditText 
+	    android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:id="@+id/new_command_name"
+    	/>
+	
+	<TextView
+	    android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:text="Button Command, required"
+    	/>
+	
+	<EditText 
+	    android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:id="@+id/new_command_command"
+    	android:text="xdotool key alt+F4"
+    	/>
+	<TextView
+	    android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:text="Button width (out of 10), required"
+    	/>
+	
+	<EditText 
+	    android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:inputType="number"
+    	android:id="@+id/new_command_width"
+    	
+    	/>
+	<TextView
+	    android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:text="Button color, #RRGGBB"
+    	/>
+	
+	<EditText 
+	    android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	
+    	android:id="@+id/new_command_hex"
+    	android:text="#FFFFFF"
+    	
+    	/>
+	
+</LinearLayout>

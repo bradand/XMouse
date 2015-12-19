@@ -1,0 +1,52 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!--
+         A 'parent' preference, which enables/disables child preferences (below)
+         when checked/unchecked.
+    
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="notifications_new_message"
+        android:title="@string/pref_title_new_message_notifications" />-->
+
+    <!-- Allows the user to choose a ringtone in the 'notification' category. -->
+    <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
+    <!-- NOTE: RingtonePreference's summary should be set to its value by the activity code. 
+    <RingtonePreference
+        android:defaultValue="content://settings/system/notification_sound"
+        android:dependency="notifications_new_message"
+        android:key="notifications_new_message_ringtone"
+        android:ringtoneType="notification"
+        android:title="@string/pref_title_ringtone" />-->
+
+    <!-- NOTE: This preference will be enabled only when the checkbox above is checked. 
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:dependency="notifications_new_message"
+        android:key="notifications_new_message_vibrate"
+        android:title="@string/pref_title_vibrate" />-->
+    <EditTextPreference
+        android:defaultValue="@string/pref_defualt_xdotool_initial"
+        android:key="setting_xdotool_initial"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_xdotool_initial" />
+    <ListPreference
+        android:defaultValue="1.5f"
+        android:entries="@array/pref_sensitivity_list_titles"
+        android:entryValues="@array/pref_sensitivity_list_values"
+        android:key="sensitivity_list"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_sensitivity" />
+    
+    <!-- <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="setting_mouse_background"
+        android:title="Desktop Preview" 
+        android:summary="VNC style desktop preview"/>
+    
+	 -->
+	
+</PreferenceScreen>
