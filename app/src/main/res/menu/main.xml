@@ -1,0 +1,53 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/action_conn_disc"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:icon="@drawable/state_disc"
+        android:title="@string/action_connect"/>
+
+    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+        android:icon="@drawable/ic_action_action_settings"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item
+        android:id="@+id/action_lock_keys"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:checkable="true"
+        android:title="Lock Layout"
+        />
+    <item
+        android:id="@+id/action_restore_default_keys"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="Restore Default Layout"/>
+    <item
+        android:id="@+id/action_edit_layout"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="Edit Keyboard Layout"/>
+    <item
+        android:id="@+id/action_save_preset_one"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="Save As Layout 1"/>
+    <item
+        android:id="@+id/action_save_preset_two"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="Save As Layout 2"/>
+    <item
+        android:id="@+id/action_save_preset_three"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="Save As Layout 3"/>
+
+    <item
+        android:id="@+id/action_exit"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="Disconnect and Exit"/>
+</menu>

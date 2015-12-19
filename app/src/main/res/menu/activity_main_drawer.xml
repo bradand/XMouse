@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--<item android:title="Hosts">
+        <menu android:id="@+id/drawer_menu_hosts">
+            <group android:checkableBehavior="single" >
+                <keyboard_button android:id="@+id/nav_host_1" android:icon="@android:drawable/ic_media_play"
+                    android:title="My Computer title" />
+                <keyboard_button android:id="@+id/nav_host_2" android:icon="@android:drawable/ic_media_play"
+                    android:title="My Computer title" />
+                <keyboard_button android:id="@+id/nav_host_3" android:icon="@android:drawable/ic_media_play"
+                    android:title="My Computer title" />
+            </group>
+            <item android:id="@+id/nav_host_manage" android:icon="@android:drawable/ic_menu_preferences"
+                android:title="Manage Hosts" />
+        </menu>
+    </item>-->
+
+    <!--<item android:title="Scripts">
+        <menu android:id="@+id/drawer_menu_scripts">
+            <group android:checkableBehavior="single" >
+                <keyboard_button android:id="@+id/nav_host_1" android:icon="@android:drawable/ic_media_play"
+                    android:title="My Computer title" />
+                <keyboard_button android:id="@+id/nav_host_2" android:icon="@android:drawable/ic_media_play"
+                    android:title="My Computer title" />
+                <keyboard_button android:id="@+id/nav_host_3" android:icon="@android:drawable/ic_media_play"
+                    android:title="My Computer title" />
+            </group>
+            <item android:id="@+id/nav_script_manage" android:icon="@android:drawable/ic_menu_preferences"
+                android:title="Manage Scripts" />
+        </menu>
+    </item>-->
+
+
+</menu>

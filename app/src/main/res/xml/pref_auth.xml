@@ -1,0 +1,37 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+   <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_usekeyauth"
+        android:title="Use an SSH Key" 
+        android:summary="Authenticate with a private key"/>
+	<Preference 
+	    android:key="pref_addkeybutton"
+	    android:title="Private Key" 
+	    android:dependency="pref_usekeyauth"
+	     >
+    </Preference>
+    
+    <EditTextPreference
+        android:dependency="pref_usekeyauth"
+        android:defaultValue=""
+        android:key="pref_key_passphrase"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Optional Key Passphrase"
+        />
+   <!-- <ListPreference
+        android:defaultValue=""
+        
+        android:key="pref_usekeyauth_list"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="Selected Key"
+        android:dependency="pref_usekeyauth" />
+   
+   android:entries="@array/pref_sync_frequency_titles"
+        android:entryValues="@array/pref_sync_frequency_values"
+         -->
+</PreferenceScreen>
