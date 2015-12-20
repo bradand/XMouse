@@ -19,7 +19,7 @@ public class CustomKeyboardButtonAdapter extends ArrayAdapter<CustomKeyboardButt
 	private final class ItemViewHolder {
 
 		public TextView itemTitle;
-		public TextView itemCommand;
+		//public TextView itemCommand;
 		//public ImageView itemIcon;
 
 	}
@@ -89,10 +89,10 @@ public class CustomKeyboardButtonAdapter extends ArrayAdapter<CustomKeyboardButt
 		convertView.setLayoutParams(lp);
 
 		itemViewHolder.itemTitle.setText(item.getmTitle());
-		if(MainActivity.setting_keyboard_show_details){
-			itemViewHolder.itemCommand.setText(item.getmCommand());
-			itemViewHolder.itemCommand.setSelected(true);
-		}
+		//if(MainActivity.setting_keyboard_show_details){
+		//	itemViewHolder.itemCommand.setText(item.getmCommand());
+		//	itemViewHolder.itemCommand.setSelected(true);
+		//}
 
 
         final RelativeLayout layoutHolder = (RelativeLayout) convertView.findViewById(R.id.textViewHolderLayout);

@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
     public static String setting_key_passphrase="";
     public static boolean setting_use_keys = false;
     public static String setting_key_filename = "";
-    public static boolean setting_keyboard_show_details;
+    //public static boolean setting_keyboard_show_details;
     //static boolean setting_command_overlay=true;
     String setting_host_all;
 
@@ -334,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
             setting_autoconnect=prefs.getBoolean("autologin_checkbox", false);
             setting_xdotool_initial=prefs.getString("setting_xdotool_initial", "export DISPLAY=':0' && unset HISTFILE");
             setting_keyboard_autoclear=prefs.getBoolean("keyboard_autoclear", true);
-            setting_keyboard_show_details=prefs.getBoolean("show_commands_on_buttons",false);
+            //setting_keyboard_show_details=prefs.getBoolean("show_commands_on_buttons",false);
             setting_use_keys = prefs.getBoolean("pref_usekeyauth",false);
             setting_key_filename=prefs.getString("pref_addkeybutton", "");
             setting_key_passphrase=prefs.getString("pref_key_passphrase", "");
