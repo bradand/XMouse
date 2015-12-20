@@ -25,7 +25,7 @@ public class MyMouseView extends View {
     //private Canvas  mCanvas;
     private Path mPath;
     private Paint mBitmapPaint;
-    private float scrollStart = 90f; //pixels to draw from left, for scroll bar
+    private float scrollStart = 120f; //pixels to draw from left, for scroll bar
     final int CLICK = 3;
     private int w=0;
     private int h=0;
@@ -113,12 +113,19 @@ public class MyMouseView extends View {
                 canvas.drawCircle(mX, mY, 80, mPaint);
             }
             if(zooming || scrolling){
+
+
                 canvas.drawCircle(curr.x, curr.y, 80, mPaint);
-                canvas.drawCircle(yX, yY, 80, mPaint);
+
+                if(yX<scrollStart || twoFingerScroll) {
+                    canvas.drawCircle(yX, yY, 80, mPaint);
+
+                }
             }
         }
     }
 
+    private boolean twoFingerScroll = false;
     private int zoomCounter = 0;
     private int zoomOverFlow = 10;
     private float mX, mY, yX, yY;
@@ -245,7 +252,7 @@ public class MyMouseView extends View {
                         }
 
                     }else if(!zooming){
-
+                        twoFingerScroll=true;
                         scrolling=true;
 
                     }
@@ -295,6 +302,7 @@ public class MyMouseView extends View {
                 firstTouch=true;
                 zooming=false;
                 draggable=true;
+                twoFingerScroll=false;
                 touch_up();
                 invalidate();
 

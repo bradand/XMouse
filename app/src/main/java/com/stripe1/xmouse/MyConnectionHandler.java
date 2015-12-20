@@ -47,7 +47,7 @@ public class MyConnectionHandler {
     public void xMouseTryConnect(){ //change connection state
         if(session==null || !session.isConnected()){
 
-            if(MainActivity.setting_user=="" || MainActivity.setting_host=="" || MainActivity.setting_pass==""){
+            if(MainActivity.setting_user=="" || MainActivity.setting_host=="" || String.valueOf(MainActivity.setting_port)==""){
 
                 Toast.makeText(myActivity, "A connection setting is blank", Toast.LENGTH_LONG).show();
                 return;

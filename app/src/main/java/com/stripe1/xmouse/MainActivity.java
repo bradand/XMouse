@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
     public static String setting_key_passphrase="";
     public static boolean setting_use_keys = false;
     public static String setting_key_filename = "";
-    public static boolean setting_keyboard_show_details;
+    //public static boolean setting_keyboard_show_details;
     //static boolean setting_command_overlay=true;
     String setting_host_all;
 
@@ -108,6 +108,25 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
     public void onDialogNegativeClick(com.stripe1.xmouse.myDialogFragment dialog) {
 
 
+    }
+    public void xMouseClickMouse(View v){
+
+        String cmd ="";
+
+        switch(v.getId()){
+            case R.id.firstMouseButton:
+                cmd ="xdotool click 1";
+                break;
+            case R.id.secondMouseButton:
+                cmd ="xdotool click 2";
+                break;
+            case R.id.thirdMouseButton:
+                cmd ="xdotool click 3";
+                break;
+            default:
+                break;
+        }
+        conn.executeShellCommand(cmd);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -315,6 +334,8 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
             setting_port= Integer.valueOf(prefs.getString("setting_port", "22"));
             setting_pass= prefs.getString("setting_pass", "");
 
+            //Log.d("prefTest",setting_host+" "+setting_user+" "+setting_pass+" "+setting_port);
+
             setting_host_all = prefs.getString("hostPreferenceList", "0");//id of host in db
 
             ArrayList<ArrayList<String>> host = db.getRowWithId(DatabaseHandler.HOST_TABLE_NAME,new String[] {"Host","Username","Port","Password"},setting_host_all);
@@ -330,11 +351,14 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
                 //Log.d("getPreferences", "Zero host records, will default to last used settings");
                 Toast.makeText(getBaseContext(), "No Saved Host selected", Toast.LENGTH_LONG).show();
             }*/
+
+            //Log.d("prefTest",setting_host+" "+setting_user+" "+setting_pass+" "+setting_port);
+
             setting_sensitivity = Float.valueOf(prefs.getString("sensitivity_list", "1.0f"));
             setting_autoconnect=prefs.getBoolean("autologin_checkbox", false);
             setting_xdotool_initial=prefs.getString("setting_xdotool_initial", "export DISPLAY=':0' && unset HISTFILE");
             setting_keyboard_autoclear=prefs.getBoolean("keyboard_autoclear", true);
-            setting_keyboard_show_details=prefs.getBoolean("show_commands_on_buttons",false);
+            //setting_keyboard_show_details=prefs.getBoolean("show_commands_on_buttons",false);
             setting_use_keys = prefs.getBoolean("pref_usekeyauth",false);
             setting_key_filename=prefs.getString("pref_addkeybutton", "");
             setting_key_passphrase=prefs.getString("pref_key_passphrase", "");
@@ -348,13 +372,13 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
             Toast.makeText(getApplicationContext(), "There was a problem retrieving your settings: "+e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
-    /*public void bindValueToPref(String key,String val){
+    public void bindValueToPref(String key,String val){
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(key,val);
         editor.commit();
-    }*/
+    }
     public void xMouseKeyboardSend(View v){
 
         useKeyboardSendText();
@@ -512,8 +536,14 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
                 startActivity(intent);
                 break;
             case R.id.action_conn_disc:
-                //conn.xMouseTryConnect();
-                conn.xMouseDisconnect();
+
+                //Log.d("prefTest",setting_host+" "+setting_user+" "+setting_pass+" "+setting_port);
+
+                if(conn.session != null && conn.session.isConnected()){
+                    conn.xMouseDisconnect();
+                }else {
+                    conn.xMouseTryConnect();
+                }
                 break;
             case R.id.action_restore_default_keys:
                 KEYLOAYOUTFILENAME = "keyLayoutFile.csv";
@@ -574,9 +604,6 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
         switch(group) {
             case 1: //hosts
 
-
-
-
                 if(id==999999999){
                     //manage sripts ID
 
@@ -596,10 +623,10 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
                         setting_port = Integer.valueOf(host.get(0).get(2));
                         setting_pass = host.get(0).get(3);
 
-                        /*bindValueToPref("setting_host",setting_host);
+                        bindValueToPref("setting_host",setting_host);
                         bindValueToPref("setting_user",setting_user);
                         bindValueToPref("setting_port",String.valueOf(setting_port));
-                        bindValueToPref("setting_pass",setting_pass);*/
+                        bindValueToPref("setting_pass",setting_pass);
 
                         conn.xMouseDisconnect();
                         conn.xMouseTryConnect();
@@ -1014,52 +1041,6 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 
     }
 
-
-
-    /*public void xMouseIssueCustomCommand(View v){
-        CustomScriptButton b = (CustomScriptButton) v;
-        //String scriptId = b.getText().toString();
-        //Log.d("xMouseIssueCustomCommand","customButton "+b.getId()+" "+b.getScript());
-        switch(v.getId()){
-            case R.id.scriptButton:
-
-                String cmd = b.getScript();
-
-
-                conn.executeExecCommand(cmd);
-
-                //Toast.makeText(getApplicationContext(), cmd, Toast.LENGTH_SHORT).show();
-
-                break;
-            case R.id.scriptButton_delete:
-
-                final int id = b.getDatabaseId();
-
-                //Building dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Really remove script?");
-                builder.setMessage("This can't be undone");
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        db.deleteRow(DatabaseHandler.SCRIPT_TABLE_NAME, id);
-                        refreshScriptList();
-                        Toast.makeText(getBaseContext(), "Script deleted", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-
-
-                break;
-        }
-    }*/
 
 
 }
