@@ -14,3 +14,8 @@ Features
 Required programs on Linux host machine
 - openssh-server
 - xdotool
+
+
+
+Like this project? Donte to me via BitCoin using this address:
+17DaqbcEEG3Hn5jBv3sRjPTUUCW1eBp1Wg
