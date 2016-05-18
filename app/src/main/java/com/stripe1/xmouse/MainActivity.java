@@ -410,12 +410,14 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
     }
     @Override
     protected void onPause() {
+        KEYLOAYOUTFILENAME = "keyLayoutFile.csv";
+        saveKeyboardLayout();
         super.onPause();
         // Another activity is taking focus (this activity is about to be "paused").
     }
     @Override
     protected void onStop() {
-        saveKeyboardLayout();
+
         super.onStop();  // Always call the superclass method first
     }
     @Override
