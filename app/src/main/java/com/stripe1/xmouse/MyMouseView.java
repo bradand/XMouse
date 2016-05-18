@@ -128,7 +128,7 @@ public class MyMouseView extends View {
     private boolean twoFingerScroll = false;
     private int zoomCounter = 0;
     private int zoomOverFlow = 10;
-    private float mX, mY, yX, yY;
+    private float mX=0, mY=0, yX=scrollStart, yY=0;
     private final float TOUCH_TOLERANCE = 4;
     private final float SCROLL_TOLERANCE = 20;
     private boolean scrolling = false;

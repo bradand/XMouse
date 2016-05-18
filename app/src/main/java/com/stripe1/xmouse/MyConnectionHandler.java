@@ -233,7 +233,7 @@ public class MyConnectionHandler {
 
 
                 }else{
-                    session.setConfig("PreferredAuthentications", "password");
+                    session.setConfig("PreferredAuthentications", "password,keyboard-interactive");
                     session.setPassword(mPass);
                     Log.d("SshConnectTask", "attempt password auth");
                 }

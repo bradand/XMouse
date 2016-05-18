@@ -69,7 +69,9 @@ public class ListEditActivity extends AppCompatActivity implements MyInterface {
         });
 
         mList = (ListView) findViewById(R.id.myListView);
-        loadCurrentHostList();
+        if(MainActivity.db!=null) {
+            loadCurrentHostList();
+        }
 
     }
     public void loadCurrentHostList(){
