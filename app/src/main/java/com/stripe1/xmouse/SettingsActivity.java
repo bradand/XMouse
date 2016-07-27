@@ -1,8 +1,11 @@
 package com.stripe1.xmouse;
 
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -13,7 +16,10 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -33,7 +39,7 @@ import java.io.File;
  */
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
-
+    private static final int REQUEST_WRITE_STORAGE = 112;
 
     static int selectedHostIndex=0;
     CharSequence[] hostsNames;
@@ -196,6 +202,45 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
+
+                //check if we have permissions via android 6
+
+
+                //ask for the permission in android M
+                int permission = ContextCompat.checkSelfPermission(SettingsActivity.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+                if (permission != PackageManager.PERMISSION_GRANTED) {
+                    Log.i("SettingsActivity", "Permission to record denied");
+
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(SettingsActivity.this,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+                        builder.setMessage("Access the SD-CARD is required.")
+                                .setTitle("Permission required");
+
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int id) {
+                                Log.i("SettingsActivity", "Clicked ok for permission");
+
+                                ActivityCompat.requestPermissions(SettingsActivity.this,
+                                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                        REQUEST_WRITE_STORAGE);
+                            }
+                        });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+
+                    } else {
+
+                        ActivityCompat.requestPermissions(SettingsActivity.this,
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                REQUEST_WRITE_STORAGE);
+                    }
+                }
+
                 //open browser or intent here
 
                 //File mPath = new File(Environment.getExternalStorageDirectory(), null);
@@ -255,7 +300,27 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         //bindPreferenceSummaryToValue(findPreference("sync_frequency"));
 
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_WRITE_STORAGE: {
 
+                if (grantResults.length == 0
+                        || grantResults[0] !=
+                        PackageManager.PERMISSION_GRANTED) {
+
+                    Log.i("SettingsActivity", "Permission has been denied by user");
+
+                } else {
+
+                    Log.i("SettingsActivity", "Permission has been granted by user");
+
+                }
+                return;
+            }
+        }
+    }
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.

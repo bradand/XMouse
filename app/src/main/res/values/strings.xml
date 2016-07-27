@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">XMouse</string>
-
+    <string name="app_version">v2.0.25</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 

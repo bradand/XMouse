@@ -874,31 +874,86 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
     public LinkedList<CustomKeyboardButton> loadDefaultKeyboardLayout(Context mCont){
         LinkedList<CustomKeyboardButton> views = new LinkedList<CustomKeyboardButton>();
         //10 cols per row
-        views.add(new CustomKeyboardButton( 0,2, "F1", "xdotool key F1","#FFFFFF"));
+        /*views.add(new CustomKeyboardButton( 0,2, "F1", "xdotool key F1","#FFFFFF"));
         views.add(new CustomKeyboardButton( 0,2, "F2", "xdotool key F2","#FFFFFF"));
         views.add(new CustomKeyboardButton( 0,2, "F3", "xdotool key F3","#FFFFFF"));
         views.add(new CustomKeyboardButton( 0,2, "F4", "xdotool key F4","#FFFFFF"));
         views.add(new CustomKeyboardButton( 0,2, "F5", "xdotool key F5","#FFFFFF"));
-
         views.add(new CustomKeyboardButton( 0,2, "[Prev]", "xdotool key XF86AudioPrev","#FFFFFF"));
         views.add(new CustomKeyboardButton( 0,3, "[Pause]", "xdotool key XF86AudioPause","#FFFFFF"));
         views.add(new CustomKeyboardButton( 0,3, "[Play]", "xdotool key XF86AudioPlay","#FFFFFF"));
         views.add(new CustomKeyboardButton( 0,2, "[Next]", "xdotool key XF86AudioNext","#FFFFFF"));
-
         views.add(new CustomKeyboardButton( 0,3, "Esc", "xdotool key Escape","#FFFFFF"));
         views.add(new CustomKeyboardButton( 0,3, "Alt|F4", "xdotool key alt+F4","red"));
         views.add(new CustomKeyboardButton( 0,4, "Backspace", "xdotool key BackSpace","#FFFFFF"));
-
         views.add(new CustomKeyboardButton( 0,5, "<Back", "xdotool key XF86Back","#FFFFFF"));
         views.add(new CustomKeyboardButton( 0,5, "Forward>", "xdotool key XF86Forward","#FFFFFF"));
-
         views.add(new CustomKeyboardButton( 0,3, "-Mute-", "xdotool key XF86AudioMute","#FFFFFF"));
         views.add(new CustomKeyboardButton( 0,4, "Up", "xdotool key Up","#FFFFFF"));
         views.add(new CustomKeyboardButton( 0,3, "Enter", "xdotool key Return","#FFFFFF"));
-
         views.add(new CustomKeyboardButton( 0,3, "Left", "xdotool key Left","#FFFFFF"));
         views.add(new CustomKeyboardButton( 0,4, "Down", "xdotool key Down","#FFFFFF"));
         views.add(new CustomKeyboardButton( 0,3, "Right", "xdotool key Right","#FFFFFF"));
+        */
+
+        //new default design by Xalalau Xubilozo, Brazil
+        views.add(new CustomKeyboardButton( 0, 2,"Esc","xdotool key Escape","#FFe6e6"));
+        views.add(new CustomKeyboardButton( 0, 3,"Minimize","xdotool windowminimize $(xdotool getactivewindow)","#9FFF80"));
+        views.add(new CustomKeyboardButton( 0, 3,"Maximize","xdotool windowsize $(xdotool getactivewindow) 100% 100%","#FFCC66"));
+        views.add(new CustomKeyboardButton( 0, 2,"X","xdotool key alt+F4","#FF9999"));
+        views.add(new CustomKeyboardButton( 0, 2,"F1","xdotool key F1","#FFFFFF"));
+        views.add(new CustomKeyboardButton( 0, 2,"F2","xdotool key F2","#FFFFFF"));
+        views.add(new CustomKeyboardButton( 0, 2,"F3","xdotool key F3","#FFFFFF"));
+        views.add(new CustomKeyboardButton( 0, 2,"F4","xdotool key F4","#FFFFFF"));
+        views.add(new CustomKeyboardButton( 0, 2,"F5","xdotool key F5","#FFFFFF"));
+        views.add(new CustomKeyboardButton( 0, 2,"F6","xdotool key F6","#FFFFFF"));
+        views.add(new CustomKeyboardButton( 0, 2,"F7","xdotool key F7","#FFFFFF"));
+        views.add(new CustomKeyboardButton( 0, 2,"F8","xdotool key F8","#FFFFFF"));
+        views.add(new CustomKeyboardButton( 0, 2,"F9","xdotool key F9","#FFFFFF"));
+        views.add(new CustomKeyboardButton( 0, 2,"F10","xdotool key F10","#FFFFFF"));
+        views.add(new CustomKeyboardButton( 0, 2,"F11","xdotool key F11","#FFFFFF"));
+        views.add(new CustomKeyboardButton( 0, 2,"F12","xdotool key F12","#FFFFFF"));
+        views.add(new CustomKeyboardButton( 0, 3,"+Brightness","xdotool key XF86MonBrightnessUp","#e6f7ff"));
+        views.add(new CustomKeyboardButton( 0, 3,"-Brightness","xdotool key XF86MonBrightnessDown","#e6f7ff"));
+        views.add(new CustomKeyboardButton( 0, 2,"Super","xdotool key super","#80d4ff"));
+        views.add(new CustomKeyboardButton( 0, 3,"+Volume","xdotool key XF86AudioRaiseVolume","#B3E6FF"));
+        views.add(new CustomKeyboardButton( 0, 3,"-Volume","xdotool key XF86AudioLowerVolume","#B3E6FF"));
+        views.add(new CustomKeyboardButton( 0, 2,"Mute","xdotool key XF86AudioMute","#B3E6FF"));
+        views.add(new CustomKeyboardButton( 0, 2,"Alt|Tab","xdotool key alt+Tab","#80d4ff"));
+        views.add(new CustomKeyboardButton( 0, 3,"[Prev]","xdotool key XF86AudioPrev","#B3E6FF"));
+        views.add(new CustomKeyboardButton( 0, 3,"[Next]","xdotool key XF86AudioNext","#B3E6FF"));
+        views.add(new CustomKeyboardButton( 0, 2,"[Play]","xdotool key XF86AudioPlay","#B3E6FF"));
+        views.add(new CustomKeyboardButton( 0, 2,"New","xdotool key ctrl+n","#E6B3FF"));
+        views.add(new CustomKeyboardButton( 0, 2,"Open","xdotool key ctrl+o","#E6B3FF"));
+        views.add(new CustomKeyboardButton( 0, 2,"Save","xdotool key ctrl+s","#E6B3FF"));
+        views.add(new CustomKeyboardButton( 0, 2,"Find","xdotool key ctrl+f","#E6B3FF"));
+        views.add(new CustomKeyboardButton( 0, 2,"Print","xdotool key ctrl+p","#E6B3FF"));
+        views.add(new CustomKeyboardButton( 0, 4,"Select all","xdotool key ctrl+a","#E6B3FF"));
+        views.add(new CustomKeyboardButton( 0, 3,"+Zoom","xdotool key ctrl+plus","#E6B3FF"));
+        views.add(new CustomKeyboardButton( 0, 3,"-Zoom","xdotool key ctrl+minus","#E6B3FF"));
+        views.add(new CustomKeyboardButton( 0, 2,"Undo","xdotool key ctrl+z","#F7E6FF"));
+        views.add(new CustomKeyboardButton( 0, 2,"Redo","xdotool key ctrl+y","#F7E6FF"));
+        views.add(new CustomKeyboardButton( 0, 2,"Copy","xdotool key ctrl+c","#F7E6FF"));
+        views.add(new CustomKeyboardButton( 0, 2,"Crop","xdotool key ctrl+x","#F7E6FF"));
+        views.add(new CustomKeyboardButton( 0, 2,"Paste","xdotool key ctrl+v","#F7E6FF"));
+        views.add(new CustomKeyboardButton( 0, 3,"PgUp","xdotool key Prior","#FFFFFF"));
+        views.add(new CustomKeyboardButton( 0, 3,"PgDown","xdotool key Next","#FFFFFF"));
+        views.add(new CustomKeyboardButton( 0, 4,"Delete","xdotool key Delete","#FFFFFF"));
+        views.add(new CustomKeyboardButton( 0, 2,"Home","xdotool key Home","#FFFFFF"));
+        views.add(new CustomKeyboardButton( 0, 2,"Up","xdotool key Up","#FFFFB3"));
+        views.add(new CustomKeyboardButton( 0, 2,"End","xdotool key End","#FFFFFF"));
+        views.add(new CustomKeyboardButton( 0, 4,"Backspace","xdotool key BackSpace","#FFFFFF"));
+        views.add(new CustomKeyboardButton( 0, 2,"Left","xdotool key Left","#FFFFB3"));
+        views.add(new CustomKeyboardButton( 0, 2,"Down","xdotool key Down","#FFFFB3"));
+        views.add(new CustomKeyboardButton( 0, 2,"Right","xdotool key Right","#FFFFB3"));
+        views.add(new CustomKeyboardButton( 0, 4,"Enter","xdotool key Return","#FFFFFF"));
+        views.add(new CustomKeyboardButton( 0, 5,"<Back","xdotool key XF86Back","#f2e5d9"));
+        views.add(new CustomKeyboardButton( 0, 5,"Forward>","xdotool key XF86Forward","#f2e5d9"));
+        views.add(new CustomKeyboardButton( 0, 1,"+","xdotool key ctrl+t","#e6ccb3"));
+        views.add(new CustomKeyboardButton( 0, 1,"-","xdotool key ctrl+w","#e6ccb3"));
+        views.add(new CustomKeyboardButton( 0, 4,"Reopen Last Tab","xdotool key ctrl+shift+t","#e6ccb3"));
+        views.add(new CustomKeyboardButton( 0, 2,"<-","xdotool key ctrl+shift+Tab","#e6ccb3"));
+        views.add(new CustomKeyboardButton( 0, 2,"->","xdotool key ctrl+Tab","#e6ccb3"));
 
         return views;
     }

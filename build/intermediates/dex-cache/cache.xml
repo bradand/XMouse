@@ -9,27 +9,6 @@
         <dex dex="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-23.1.1_bf2b26acc92efa74584293f6b787389897aacacb/classes.dex" />
     </item>
     <item
-        jar="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/build/intermediates/exploded-aar/com.android.support/multidex/1.0.1/jars/classes.jar"
-        jumboMode="true"
-        revision="23.0.1"
-        sha1="78ea232052df889856dcb7b7b542707c89bb3bfb">
-        <dex dex="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-multidex-1.0.1_f23577738480fff314e42372e91ec82c7a1eb5eb/classes.dex" />
-    </item>
-    <item
-        jar="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
-        jumboMode="true"
-        revision="23.0.1"
-        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
-        <dex dex="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-23.1.1_2864038e2ae0f3e620fba53e92e05fd1c9f02a14/classes.dex" />
-    </item>
-    <item
-        jar="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        revision="23.0.1"
-        sha1="74b563f05cb18aa4d7af9aa3a7573df81ea6d3e1">
-        <dex dex="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_40910d9101bf14871261a031e5c4c0a4ca601385/classes.dex" />
-    </item>
-    <item
         jar="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.1/jars/classes.jar"
         jumboMode="true"
         revision="23.0.1"
@@ -40,8 +19,15 @@
         jar="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         revision="23.0.1"
-        sha1="ccf47d69da4710e8ffc67bf8cc62cc8d48b9b07b">
+        sha1="d69fd676a402384f4927defa8029305036474af9">
         <dex dex="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_34705ca986d46a71b97c5cf295fe9bf72c0424cd/classes.dex" />
+    </item>
+    <item
+        jar="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/build/intermediates/exploded-aar/com.android.support/multidex/1.0.1/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.1"
+        sha1="78ea232052df889856dcb7b7b542707c89bb3bfb">
+        <dex dex="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-multidex-1.0.1_f23577738480fff314e42372e91ec82c7a1eb5eb/classes.dex" />
     </item>
     <item
         jar="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/jars/classes.jar"
@@ -58,11 +44,25 @@
         <dex dex="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.1.1_dcf8e411db5d5b6efed1590645945d43d0300c24/classes.dex" />
     </item>
     <item
+        jar="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.1"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-23.1.1_2864038e2ae0f3e620fba53e92e05fd1c9f02a14/classes.dex" />
+    </item>
+    <item
         jar="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
         jumboMode="true"
         revision="23.0.1"
         sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
         <dex dex="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.1.1_40c1b33905de18e1cd4b5ced3057c95178fb95a0/classes.dex" />
+    </item>
+    <item
+        jar="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        revision="23.0.1"
+        sha1="3dada880240b0b29478a3a653d4fa7d0a052552d">
+        <dex dex="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_40910d9101bf14871261a031e5c4c0a4ca601385/classes.dex" />
     </item>
     <item
         jar="/Users/bradley/Documents/AndroidStudioWorkspace/XMouse2/app/libs/jsch-0.1.53.jar"
