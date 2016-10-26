@@ -16,13 +16,13 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 
 
 public class MyConnectionHandler {
@@ -30,10 +30,15 @@ public class MyConnectionHandler {
 
     public JSch jsch=new JSch();
     public Session session =null;
-    public Channel channel=null;
-    public PrintStream shellStream;
-    public ByteArrayOutputStream os = null;
+    private Channel channel=null;
+    private InputStream in = null;
+    private PipedOutputStream pin =null;
 
+    //public PrintStream shellStream;
+    //public ByteArrayOutputStream os = null;
+
+
+    private final String TAG = "MyConnectionHandler";
     private Activity myActivity;
 
     private MyInterface myInterface;
@@ -74,6 +79,10 @@ public class MyConnectionHandler {
                             //import command to execute to porperly set the display window to be used
                             //':0.0' is the default of the user currently logged in
                             executeShellCommand(MainActivity.setting_xdotool_initial);
+                            //executeExecCommand(MainActivity.setting_xdotool_initial);
+                            //executeExecCommand("xdotool mousemove_relative -- 40 -40");
+                            //executeExecCommand("ls -alh");
+
                         }else{
 
                             Toast.makeText(myActivity, "Error: "+result, Toast.LENGTH_LONG).show();
@@ -90,113 +99,11 @@ public class MyConnectionHandler {
             t.execute("");
         }else{
             xMouseDisconnect();
+
         }
+
     }
 
-    public void xMouseDisconnect(){
-
-        if(session!=null){
-            if(session.isConnected()){
-                channel.disconnect();
-                session.disconnect();
-                session=null;
-                channel = null;
-
-            }
-        }
-        //showConnectionStat();
-        //MyCallback.callbackCall();
-        myInterface.performCallback();//refresh connection icon
-    }
-
-    public boolean executeExecCommand(final String cmd){
-
-
-        if(session==null || cmd == null || cmd.length()==0){
-            return false;
-        }
-        if(session.isConnected()){
-            //log.append(cmd);
-            SshExecTask  t = (SshExecTask) new SshExecTask(myActivity,cmd) {
-                protected void onPostExecute(String result) {
-                    if (dialog.isShowing()) {
-                        dialog.dismiss();
-                    }
-					/*log.append(result);
-					if(mViewPager.getCurrentItem()==2){
-			        	actionBar.selectTab(actionBar.getTabAt(2)); //force refresh while user is looking at terminal page
-			        }
-
-			        if(log.length()>10000){
-		        		log.delete(0, log.indexOf("\n", 2000));
-
-		        	}*/
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(myActivity);
-                    builder.setTitle(cmd);
-                    builder.setMessage(result);
-                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-
-                }
-            };
-            //dt.setCont(mCont);
-            t.execute("");
-            return true;
-        }
-        return false;
-    }
-    public boolean executeShellCommand(String cmd){
-
-        MainActivity.recentCmdTextView.setText(cmd);
-
-        if(session==null){
-
-            return false;
-        }
-        if(session.isConnected()){
-
-            try {
-
-                os = new ByteArrayOutputStream();
-                channel.setOutputStream(os);
-                shellStream = new PrintStream(channel.getOutputStream());// printStream for convenience
-                shellStream.println(cmd);
-                shellStream.flush();
-
-                /*//log.getChars(0, 0, dst, dstStart)
-                log.append(cmd).append("\n");
-
-
-                if(mViewPager.getCurrentItem()==2){
-                    actionBar.selectTab(actionBar.getTabAt(2)); //force refresh while user is looking at terminal page
-                }
-
-                if(log.length()>10000){
-                    log.delete(0, log.indexOf("\n", 2000));
-
-                }
-                */
-                return true;
-                //return shellStream.checkError();
-
-				/*} catch (JSchException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();*/
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
     public class SshConnectTask extends AsyncTask<String, String, String> {
 
         private String mUser = "";
@@ -221,17 +128,17 @@ public class MyConnectionHandler {
         protected ProgressDialog dialog;
         protected String doInBackground(String... params) {
             try{
+                Log.d(TAG,"Connecting to... "+mUser+"@"+mHost+":"+mPort);
                 session= jsch.getSession(mUser, mHost, mPort);
 
                 if(MainActivity.setting_use_keys){
                     if(!MainActivity.setting_key_passphrase.isEmpty()){
                         jsch.addIdentity(MainActivity.setting_key_filename, MainActivity.setting_key_passphrase);
                         Log.d("SshConnectTask", "attempt to add identity WITH passphrase");
+                    }else {
+                        Log.d("SshConnectTask", "attempt to add identity WITHOUT passphrase");
+                        jsch.addIdentity(MainActivity.setting_key_filename);
                     }
-                    Log.d("SshConnectTask", "attempt to add identity WITHOUT passphrase");
-                    jsch.addIdentity(MainActivity.setting_key_filename);
-
-
                 }else{
                     session.setConfig("PreferredAuthentications", "password,keyboard-interactive");
                     session.setPassword(mPass);
@@ -239,21 +146,31 @@ public class MyConnectionHandler {
                 }
                 session.setX11Host(xhost);
                 session.setX11Port(xport + 6000);
-
-
                 session.setConfig("StrictHostKeyChecking", "no");
+                //session.setServerAliveInterval(1000);
+                session.connect();
 
-
-                session.connect(30000);   // making a connection with timeout.
 
                 channel= session.openChannel("shell");
-                channel.setXForwarding(true);
-                channel.connect();
+                //channel.setXForwarding(true);
 
-                os = new ByteArrayOutputStream();
+                //channel.setInputStream(System.in);
+
+                //channel.setOutputStream(System.out);
+
+                //channel.connect(3000);
+
+                /*os = new ByteArrayOutputStream();
                 channel.setOutputStream(os);
                 //channel.setOutputStream(System.out);
-                shellStream = new PrintStream(channel.getOutputStream());  // printStream for convenience
+                //shellStream = new PrintStream(channel.getOutputStream());  // printStream for convenience
+                */
+
+                //channel.setOutputStream(os, true);
+                in = new PipedInputStream();
+                pin = new PipedOutputStream((PipedInputStream) in);
+                channel.setInputStream(in);
+                channel.connect(3000);
 
 
             }catch(Exception e){
@@ -279,7 +196,88 @@ public class MyConnectionHandler {
             this.dialog.show();
         }
     }
+    public void xMouseDisconnect(){
 
+        if(session!=null){
+            if(session.isConnected()){
+                channel.disconnect();
+                session.disconnect();
+                session=null;
+                channel = null;
+
+            }
+        }
+        //showConnectionStat();
+        //MyCallback.callbackCall();
+        myInterface.performCallback();//refresh connection icon
+    }
+
+    public boolean executeExecCommand(final String cmd){
+
+        if(session==null || cmd == null || cmd.length()==0){
+            return false;
+        }
+        if(session.isConnected()){
+            //log.append(cmd);
+            SshExecTask  t = (SshExecTask) new SshExecTask(myActivity,cmd) {
+                protected void onPostExecute(String result) {
+                    if (dialog.isShowing()) {
+                        dialog.dismiss();
+                    }
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(myActivity);
+                    builder.setTitle(cmd);
+                    builder.setMessage(result);
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    myInterface.performCallback();//refresh connection icon
+
+                }
+            };
+            //dt.setCont(mCont);
+            t.execute("");
+            return true;
+        }
+        return false;
+    }
+
+    public boolean executeShellCommand(String cmd){
+
+        MainActivity.recentCmdTextView.setText(cmd);
+
+        if(session==null){
+
+            return false;
+
+        }
+        if(session.isConnected() && channel.isConnected()){
+
+            try {
+
+                //Log.d(TAG,cmd+", "+session.isConnected());
+
+                cmd=cmd+"\r\n";
+                pin.write(cmd.getBytes());
+                pin.flush();
+
+
+                return true;
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+            }
+        }
+
+        return false;
+    }
     public class SshExecTask extends AsyncTask<String, String, String> {
 
         String cmd;
@@ -293,45 +291,21 @@ public class MyConnectionHandler {
         protected ProgressDialog dialog;
         protected String doInBackground(String... params) {
             StringBuilder log = new StringBuilder();
+
             try {
 
                 Channel channel = session.openChannel("exec");
                 ((ChannelExec)channel).setCommand(cmd);
 
                 // X Forwarding
-                channel.setXForwarding(true);
+                //channel.setXForwarding(true);
 
                 //channel.setInputStream(System.in);
                 channel.setInputStream(null);
-
-                //channel.setOutputStream(System.out);
-                //StringOutputStream outputCollector = new StringOutputStream();
-                //FileOutputStream fos=new FileOutputStream("/tmp/stderr");
-                //((ChannelExec)channel).setErrStream(fos);
-                //((ChannelExec) channel).//.setErrStream(System.err);
-
                 BufferedReader r = new BufferedReader(new InputStreamReader(((ChannelExec) channel).getErrStream()));
-
                 //InputStream in=channel.getInputStream();
                 BufferedReader r2 = new BufferedReader(new InputStreamReader(channel.getInputStream()));
                 channel.connect();
-
-                /*byte[] tmp=new byte[1024];
-                while(true){
-                    while(in.available()>0){
-                        int i=in.read(tmp, 0, 1024);
-                        if(i<0)break;
-                        //System.out.print(new String(tmp, 0, i));
-                        log.append((new String(tmp, 0, i)));
-                    }
-                    if(channel.isClosed()){
-                        //System.out.println("exit-status: "+channel.getExitStatus());
-                        break;
-                    }
-                    try{
-                        Thread.sleep(250);}catch(Exception ee){}
-                }*/
-
                 StringBuilder total = new StringBuilder();
                 String line;
                 while ((line = r.readLine()) != null) {
@@ -344,24 +318,10 @@ public class MyConnectionHandler {
                 //session.disconnect();
                 log.append(total.toString());
 
-            /*} catch (JSchException e) {
-
-                e.printStackTrace();
-                log.append(e.getMessage());
-
-
-            } catch (IOException e) {
-
-                e.printStackTrace();
-                log.append(e.getMessage());*/
-
             } catch (Exception e){
                 e.printStackTrace();
                 log.append(e.getMessage());
             }
-
-
-
             return log.toString();
         }
         @Override
@@ -376,6 +336,7 @@ public class MyConnectionHandler {
             this.dialog.show();
         }
     }
+
     public class SshScpTask extends AsyncTask<String, String, String> {
 
         String cmd;
@@ -391,10 +352,10 @@ public class MyConnectionHandler {
             StringBuilder log = new StringBuilder();
             try {
                 String lfile = "mouse_bg.jpg";
-			/*String prefix=null;
-			  if(new File(lfile).isDirectory()){
-			    prefix=lfile+File.separator;
-			  }*/
+			//String prefix=null;
+			  //if(new File(lfile).isDirectory()){
+			    //prefix=lfile+File.separator;
+			  //}
 
                 Channel channel = session.openChannel("exec");
                 ((ChannelExec)channel).setCommand(cmd);

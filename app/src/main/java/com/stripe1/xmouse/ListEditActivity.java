@@ -22,8 +22,6 @@ public class ListEditActivity extends AppCompatActivity implements MyInterface {
     private static List<HostItem> mHostItems = new LinkedList<HostItem>();
 
     public enum ActivityType {
-
-
         type_host,
         type_script
     }

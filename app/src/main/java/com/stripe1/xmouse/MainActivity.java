@@ -61,30 +61,30 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
     public static String setting_pass="";
     public static float setting_sensitivity=1.5f;
     boolean setting_autoconnect=false;
-    static boolean setting_keyboard_locked=false;
+    private static boolean setting_keyboard_locked=false;
     public static String setting_xdotool_initial="";
     //static boolean setting_mouse_background=false;
-    static boolean setting_keyboard_batch=true;
-    static boolean setting_keyboard_autoclear=true;
+    private static boolean setting_keyboard_batch=true;
+    private boolean setting_keyboard_autoclear=true;
     public static String setting_key_passphrase="";
     public static boolean setting_use_keys = false;
     public static String setting_key_filename = "";
     //public static boolean setting_keyboard_show_details;
     //static boolean setting_command_overlay=true;
-    String setting_host_all;
+    private String setting_host_all;
 
-    static EditText ET;
-    static CustomKeyboardButtonAdapter mItemAdapter;
-    static CoolDragAndDropGridView mCoolDragAndDropGridView;
-    static List<CustomKeyboardButton> mItems = new LinkedList<CustomKeyboardButton>();
+    private EditText ET;
+    private CustomKeyboardButtonAdapter mItemAdapter;
+    private CoolDragAndDropGridView mCoolDragAndDropGridView;
+    private List<CustomKeyboardButton> mItems = new LinkedList<CustomKeyboardButton>();
     private String KEYLOAYOUTFILENAME = "keyLayoutFile.csv";
     //static ImageView DeleteView;
-    static RelativeLayout EditKeyboardButtonsLayout;
-    static LinearLayout ETLayout;
-    static int potentialDeletePosition;
-    static int startPosition;
+    private RelativeLayout EditKeyboardButtonsLayout;
+    private LinearLayout ETLayout;
+    private int potentialDeletePosition;
+    private int startPosition;
     //static ListView scriptList;
-    static FloatingActionButton fab;
+    private FloatingActionButton fab;
     public static TextView recentCmdTextView;
 
     //private ArrayList<ArrayList<String>> scriptItems = new ArrayList<ArrayList<String>>();
@@ -957,7 +957,7 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 
         return views;
     }
-    public static String getKeyboardTextValue(){
+    public String getKeyboardTextValue(){
 
         StringBuilder sb = new StringBuilder();
         for(int x=0;x<mItems.size();x++){
