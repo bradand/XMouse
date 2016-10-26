@@ -39,7 +39,7 @@
         android:singleLine="true"
         android:title="@string/pref_title_xdotool_initial" />
     <ListPreference
-        android:defaultValue="1.5f"
+        android:defaultValue="1.0f"
         android:entries="@array/pref_sensitivity_list_titles"
         android:entryValues="@array/pref_sensitivity_list_values"
         android:key="sensitivity_list"
