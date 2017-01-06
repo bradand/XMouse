@@ -46,7 +46,9 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
         SpanVariableGridView.OnItemLongClickListener,
         myDialogFragment.NoticeDialogListener{
 
-    MenuItem conDiscButton;
+    MenuItem conDiscButton = null;
+    MenuItem KeyLockButton = null;
+    MenuItem InvScrollButton= null;
     FragmentManager fm = getSupportFragmentManager();
 
     public static DatabaseHandler db;
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
     private boolean setting_keyboard_autoclear=true;
     public static String setting_key_passphrase="";
     public static boolean setting_use_keys = false;
+    public static boolean setting_invert_scroll = false;
     public static String setting_key_filename = "";
     //public static boolean setting_keyboard_show_details;
     //static boolean setting_command_overlay=true;
@@ -132,8 +135,13 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        conDiscButton = menu.getItem(0);
-        menu.getItem(2).setChecked(setting_keyboard_locked);
+        conDiscButton = menu.findItem(R.id.action_conn_disc);//getItem(0);
+        KeyLockButton = menu.findItem(R.id.action_lock_keys);
+        InvScrollButton = menu.findItem(R.id.action_invert_scroll);
+
+
+
+
         return true;
         //super.onCreateOptionsMenu(menu);
     }
@@ -269,7 +277,10 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 
         db = new DatabaseHandler(this, hostDBKeys,scriptDBKeys);
     }
+
     public void initMenu(){
+
+
 
         //SETUP NAV PANE
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -367,6 +378,8 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
             setting_keyboard_locked=prefs.getBoolean("keyboard_layout_locked",false);
             //setting_log_staydown=prefs.getBoolean("log_staydown", true);
             //setting_command_overlay=prefs.getBoolean("command_overlay", false);
+            setting_invert_scroll=prefs.getBoolean("mouse_invert_scroll",false);
+            Log.d("getPref",""+setting_invert_scroll);
         }catch(Exception e){
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), "There was a problem retrieving your settings: "+e.getMessage(), Toast.LENGTH_LONG).show();
@@ -388,13 +401,18 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
     protected void onStart() {
         super.onStart();
         // The activity is about to become visible.
+        Log.d("onStart","onStart");
+
     }
     @Override
     protected void onResume() {
         super.onResume();
-
+        Log.d("onResume","onResume");
         // The activity has become visible (it is now "resumed").
         getPreferences();
+
+
+
         //Toast.makeText(getBaseContext(), "setting_autoconnect "+String.valueOf(setting_autoconnect), Toast.LENGTH_SHORT).show();
         if(setting_autoconnect){
             conn.xMouseTryConnect();
@@ -530,6 +548,21 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
         dialog.show();
     }
     @Override
+
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if(conDiscButton!=null) {
+            conDiscButton.setChecked(setting_keyboard_locked);
+        }
+        if(KeyLockButton!=null) {
+            KeyLockButton.setChecked(setting_keyboard_locked);
+        }
+        if(InvScrollButton!=null){
+            InvScrollButton.setChecked(setting_invert_scroll);
+        }
+        //Log.d("prepMenu","menu prepared");
+        return true;
+    }
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
@@ -567,11 +600,19 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 
             case R.id.action_lock_keys:
                 setting_keyboard_locked=!setting_keyboard_locked;
-                item.setChecked(!item.isChecked());
+                item.setChecked(setting_keyboard_locked);
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean("keyboard_layout_locked", setting_keyboard_locked);
                 editor.commit();
+                break;
+            case R.id.action_invert_scroll:
+                setting_invert_scroll=!setting_invert_scroll;
+                item.setChecked(setting_invert_scroll);
+                SharedPreferences prefs2 = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor editor2 = prefs2.edit();
+                editor2.putBoolean("mouse_invert_scroll", setting_invert_scroll);
+                editor2.commit();
                 break;
             case R.id.action_edit_layout:
                 showNoticeDialog(getBaseContext());

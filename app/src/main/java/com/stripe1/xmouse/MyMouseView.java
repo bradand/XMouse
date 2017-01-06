@@ -342,13 +342,23 @@ public class MyMouseView extends View {
         if(dx <0 || dy <0){
             cmd="xdotool mousemove_relative -- "+dx+" "+dy;
             if(scroll){
-                cmd="xdotool click 5";//mouse wheel
+                //Log.d("mouse move",""+MainActivity.setting_invert_scroll);
+                if(MainActivity.setting_invert_scroll){
+                    cmd="xdotool click 4";//mouse wheel
+                }else {
+                    cmd = "xdotool click 5";//mouse wheel
+                }
             }
 
         }else{
             cmd="xdotool mousemove_relative "+dx+" "+dy;
             if(scroll){
-                cmd="xdotool click 4";//mouse wheel
+                //Log.d("mouse move",""+MainActivity.setting_invert_scroll);
+                if(MainActivity.setting_invert_scroll) {
+                    cmd = "xdotool click 5";//mouse wheel
+                }else{
+                    cmd="xdotool click 4";//mouse wheel
+                }
             }
         }
         MainActivity.conn.executeShellCommand(cmd);

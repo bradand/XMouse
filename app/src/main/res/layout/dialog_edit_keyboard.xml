@@ -6,6 +6,7 @@
         android:id="@+id/dialog_keys_text"
         android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
+		android:lines="12"
     	android:textSize="9sp"
     	>
         
