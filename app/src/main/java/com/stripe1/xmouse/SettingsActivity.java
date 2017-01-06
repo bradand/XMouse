@@ -279,7 +279,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         //listPrefKeys.setEnabled(false);
 
 
-
         fakeHeader = new PreferenceCategory(this);
         fakeHeader.setTitle("Keyboard");
         getPreferenceScreen().addPreference(fakeHeader);

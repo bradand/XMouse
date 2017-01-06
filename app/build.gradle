@@ -8,8 +8,8 @@ android {
         applicationId "com.stripe1.xmouse"
         minSdkVersion 12
         targetSdkVersion 23
-        versionCode 24
-        versionName "2.0.26"
+        versionCode 25
+        versionName "2.0.27"
         multiDexEnabled true
     }
     buildTypes {

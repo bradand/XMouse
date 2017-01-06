@@ -20,6 +20,13 @@
         android:title="Lock Layout"
         />
     <item
+        android:id="@+id/action_invert_scroll"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:checkable="true"
+        android:title="Invert Scroll"
+        />
+    <item
         android:id="@+id/action_restore_default_keys"
         android:orderInCategory="100"
         app:showAsAction="never"
