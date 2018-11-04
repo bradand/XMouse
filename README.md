@@ -25,4 +25,4 @@ Required programs on Linux host machine
      alt="Get it on Google Play"
      height="80">](https://play.google.com/store/apps/details?id=com.stripe1.xmouse)
 
-Like this project? Donte to me via BitCoin using this address: 17DaqbcEEG3Hn5jBv3sRjPTUUCW1eBp1Wg
+Like this project? Donate to me via BitCoin using this address: 17DaqbcEEG3Hn5jBv3sRjPTUUCW1eBp1Wg
