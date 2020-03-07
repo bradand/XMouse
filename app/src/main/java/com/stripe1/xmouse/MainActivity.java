@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
     public static String setting_user="";
     public static int setting_port=22;
     public static String setting_pass="";
+    public static String setting_shell = "";
     public static float setting_sensitivity=1.5f;
     boolean setting_autoconnect=false;
     private static boolean setting_keyboard_locked=false;
@@ -373,6 +374,7 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
             setting_sensitivity = Float.valueOf(prefs.getString("sensitivity_list", "1.0f"));
             setting_autoconnect=prefs.getBoolean("autologin_checkbox", false);
             setting_xdotool_initial=prefs.getString("setting_xdotool_initial", "export DISPLAY=':0' && unset HISTFILE");
+            setting_shell = prefs.getString("setting_shell", "");
             setting_keyboard_autoclear=prefs.getBoolean("keyboard_autoclear", true);
             //setting_keyboard_show_details=prefs.getBoolean("show_commands_on_buttons",false);
             setting_use_keys = prefs.getBoolean("pref_usekeyauth",false);

@@ -32,6 +32,14 @@
         android:title="@string/pref_title_autologin" />
 
     <EditTextPreference
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:key="setting_shell"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_shell" />
+    <EditTextPreference
         android:defaultValue="@string/pref_defualt_xdotool_initial"
         android:key="setting_xdotool_initial"
         android:maxLines="1"
