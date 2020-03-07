@@ -40,7 +40,7 @@
         android:singleLine="true"
         android:title="@string/pref_title_shell" />
     <EditTextPreference
-        android:defaultValue="@string/pref_defualt_xdotool_initial"
+        android:defaultValue="@string/pref_default_xdotool_initial"
         android:key="setting_xdotool_initial"
         android:maxLines="1"
         android:selectAllOnFocus="true"

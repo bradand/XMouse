@@ -21,17 +21,17 @@
     <string name="pref_title_setting_port">Port</string>
     <string name="pref_title_setting_pass">Password</string>
     <string name="pref_title_setting_alias">Alias</string>
-    <string name="pref_defualt_setting_host">192.168.1.1</string>
-    <string name="pref_defualt_setting_user">username</string>
-    <string name="pref_defualt_setting_port">22</string>
-    <string name="pref_defualt_setting_pass">passwd</string>
+    <string name="pref_default_setting_host">192.168.1.1</string>
+    <string name="pref_default_setting_user">username</string>
+    <string name="pref_default_setting_port">22</string>
+    <string name="pref_default_setting_pass">passwd</string>
     
     <string name="pref_summary_pass"></string>
     
     <string name="pref_description_keyboard_autoclear">Clear keyboard input on send</string>
     <string name="pref_title_keyboard_autoclear">Auto clear keystrokes</string>
     
-    <string name="pref_defualt_xdotool_initial">export DISPLAY=\':0\' &amp;&amp; unset HISTFILE</string>
+    <string name="pref_default_xdotool_initial">export DISPLAY=\':0\' &amp;&amp; unset HISTFILE</string>
     <string name="pref_title_xdotool_initial">Initialization command</string>
     <string name="pref_title_shell">Login Shell (empty for default)</string>
 

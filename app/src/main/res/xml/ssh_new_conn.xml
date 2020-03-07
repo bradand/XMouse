@@ -14,14 +14,14 @@
         android:positiveButtonText="@null"
         android:title="@string/pref_title_sync_frequency" />-->
      <EditTextPreference
-        android:defaultValue="@string/pref_defualt_setting_host"
+        android:defaultValue="@string/pref_default_setting_host"
         android:key="setting_alias"
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="@string/pref_title_setting_alias" />
 	<EditTextPreference
-        android:defaultValue="@string/pref_defualt_setting_host"
+        android:defaultValue="@string/pref_default_setting_host"
         android:key="setting_host"
         android:maxLines="1"
         android:selectAllOnFocus="true"
@@ -29,7 +29,7 @@
         android:title="@string/pref_title_setting_host" />
     
     <EditTextPreference
-        android:defaultValue="@string/pref_defualt_setting_user"
+        android:defaultValue="@string/pref_default_setting_user"
         android:key="setting_user"
         android:maxLines="1"
         android:selectAllOnFocus="true"
@@ -37,14 +37,14 @@
         android:title="@string/pref_title_setting_user" />
     
     <EditTextPreference
-        android:defaultValue="@string/pref_defualt_setting_port"
+        android:defaultValue="@string/pref_default_setting_port"
         android:key="setting_port"
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="@string/pref_title_setting_port" />
 	<EditTextPreference
-        android:defaultValue="@string/pref_defualt_setting_pass"
+        android:defaultValue="@string/pref_default_setting_pass"
         android:key="setting_pass"
         android:inputType="textPassword"
         android:maxLines="1"
