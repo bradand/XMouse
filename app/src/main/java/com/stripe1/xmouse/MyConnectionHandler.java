@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -62,7 +63,8 @@ public class MyConnectionHandler {
                     MainActivity.setting_user,
                     MainActivity.setting_host,
                     MainActivity.setting_pass,
-                    MainActivity.setting_port) {
+                    MainActivity.setting_port,
+                    MainActivity.setting_shell) {
                 protected void onPostExecute(String result) {
                     if (dialog.isShowing()) {
                         dialog.dismiss();
@@ -110,16 +112,18 @@ public class MyConnectionHandler {
         private String mHost ="";
         private int mPort =22;
         private String mPass ="";
+        private String mShell = "";
         private String xhost = "127.0.0.1";
         private int xport = 0;
         private Activity a;
 
-        public SshConnectTask(Activity a,String user, String host, String pass,int port){
+        public SshConnectTask(Activity a, String user, String host, String pass, int port, String shell){
             this.a=a;
             this.mUser=user;
             this.mHost=host;
             this.mPass=pass;
             this.mPort=port;
+            this.mShell = shell;
 
             dialog = new ProgressDialog(a);
         }
@@ -151,7 +155,12 @@ public class MyConnectionHandler {
                 session.connect();
 
 
-                channel= session.openChannel("shell");
+                if (TextUtils.isEmpty(mShell)) {
+                    channel = session.openChannel("shell");
+                } else {
+                    channel = session.openChannel("exec");
+                    ((ChannelExec) channel).setCommand(mShell);
+                }
                 //channel.setXForwarding(true);
 
                 //channel.setInputStream(System.in);

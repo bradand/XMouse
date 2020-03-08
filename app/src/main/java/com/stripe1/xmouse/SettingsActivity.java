@@ -294,6 +294,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         bindPreferenceSummaryToValue(findPreference("pref_addkeybutton"));
         bindPreferenceSummaryToValue(findPreference("sensitivity_list"));
         bindPreferenceSummaryToValue(findPreference("setting_xdotool_initial"));
+        bindPreferenceSummaryToValue(findPreference("setting_shell"));
 
         //bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
         //bindPreferenceSummaryToValue(findPreference("sync_frequency"));
