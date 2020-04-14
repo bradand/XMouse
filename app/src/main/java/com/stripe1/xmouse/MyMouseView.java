@@ -238,7 +238,7 @@ public class MyMouseView extends View {
                     scaleFactor = (newDist-dist)/dist;
                     //Log.d("diffmon","newDist="+newDist+" scalefactor=" + scaleFactor);
 
-                    if(Math.abs(scaleFactor)>0.08){
+                    if(Math.abs(scaleFactor)>0.5){
                         zooming=true;
                         zoomCounter++;
                         if(zoomCounter>zoomOverFlow) {

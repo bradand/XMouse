@@ -188,6 +188,7 @@ public class MyConnectionHandler {
                 return e.getMessage();//.toString();
             }
             if(session.isConnected()){
+
                 return String.valueOf(session.isConnected());
             }else{
                 return "Not connected, no exception thrown.";
@@ -260,31 +261,22 @@ public class MyConnectionHandler {
     public boolean executeShellCommand(String cmd){
 
         MainActivity.recentCmdTextView.setText(cmd);
-
         if(session==null){
-
             return false;
-
         }
         if(session.isConnected() && channel.isConnected()){
-
             try {
-
                 //Log.d(TAG,cmd+", "+session.isConnected());
-
                 cmd=cmd+"\r\n";
                 pin.write(cmd.getBytes());
                 pin.flush();
-
-
                 return true;
-
             } catch (IOException e) {
+                MainActivity.recentCmdTextView.setText(e.getMessage()+"\t"+cmd);
 
                 e.printStackTrace();
             }
         }
-
         return false;
     }
     public class SshExecTask extends AsyncTask<String, String, String> {

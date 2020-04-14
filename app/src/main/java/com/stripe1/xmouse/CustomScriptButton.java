@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.Button;
 
-public class CustomScriptButton extends Button {
+public class CustomScriptButton extends android.support.v7.widget.AppCompatButton {
 	public CustomScriptButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
