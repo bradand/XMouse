@@ -99,32 +99,6 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 	private FloatingActionButton fab;
 	public static TextView recentCmdTextView;
 
-	
-	
-	private Sensor accelerometer;
-	private float accelerometerX;
-	private float accelerometerY;
-	private float accelerometerZ;
-	private float accelerometermX;
-	private float accelerometermY;
-	private float accelerometermZ;
-	
-	private float accelerometerlX;
-	private float accelerometerlY;
-	private float accelerometerlZ;
-	private float accelerometermlX;
-	private float accelerometermlY;
-	private float accelerometermlZ;
-	
-	private float accelerometersX;
-	private float accelerometersY;
-	private float accelerometersZ;
-	private float accelerometermsX;
-	private float accelerometermsY;
-	private float accelerometermsZ;
-	
-	private long accelerometerTime;
-	private long accelerometermTime=System.nanoTime();
 
 	private Sensor gyroscope;
 
@@ -202,8 +176,6 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 		setSupportActionBar(toolbar);
 
 		SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-		accelerometer= sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-		sensorManager.registerListener((SensorEventListener) this,accelerometer,SensorManager.SENSOR_DELAY_FASTEST);
 		gyroscope= sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 		sensorManager.registerListener((SensorEventListener) this,gyroscope,SensorManager.SENSOR_DELAY_FASTEST);
 
@@ -1176,8 +1148,6 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 		CharSequence contents = ET.getText();
 		String t = contents.toString();
 		Log.d("type",String.valueOf(t));
-				accelerometersY=0;
-				accelerometerlY=0;
 		if(!t.isEmpty()){
 			t = t.replaceAll("'", "'\\\"'\\\"'"); // -> xdotool type ''"'"''
 			t = t.replaceAll("\"", "\\\"");       // -> xdotool type '"'
@@ -1203,112 +1173,7 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 
 	@Override
 	public void onSensorChanged(SensorEvent sensorEvent) {
-		if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-
-			Switch mouseSwitch=findViewById(R.id.mouseSwitch);
-			if (mouseSwitch.isChecked()) {
-
-				String cmd;
-
-				accelerometerX = sensorEvent.values[0];
-				accelerometerY = sensorEvent.values[1];
-				accelerometerZ = sensorEvent.values[2];
-				accelerometerTime = System.nanoTime();
-
-				long accelerometerdTime=accelerometerTime-accelerometermTime;
-
-			/*accelerometersX=accelerometermsX+(accelerometermX+accelerometerX)/2*accelerometerdTime;//trapezoidal
-			accelerometersY=accelerometermsY+(accelerometermY+accelerometerY)/2*accelerometerdTime;//approximation
-			accelerometersZ=accelerometermsZ+(accelerometermZ+accelerometerZ)/2*accelerometerdTime;//of integral
-
-			accelerometerlX=accelerometermlX+(accelerometermsX+accelerometersX)/2*accelerometerdTime/1000000000/1000000;//same
-			accelerometerlY=accelerometermlY+(accelerometermsY+accelerometersY)/2*accelerometerdTime/1000000000/1000000;//but
-			accelerometerlZ=accelerometermlZ+(accelerometermsZ+accelerometersZ)/2*accelerometerdTime/1000000000/1000000;//worse
-
-			if (accelerometerlX-accelerometermlX>10)
-			{
-				accelerometerlX=accelerometermlX+10;
-			}
-			if (accelerometerlX-accelerometermlX<-10)
-			{accelerometermlX
-				accelerometerlX=accelerometermlX-10;
-			}
-			if (accelerometerlY-accelerometermlY>10)
-			{
-				accelerometerlY=accelerometermlY+10;
-			}
-			if (accelerometerlY-accelerometermlY<-10)
-			{
-				accelerometerlY=accelerometermlY-10;
-			}
-			if (accelerometerlZ-accelerometermlZ>10)
-			{
-				accelerometerlZ=accelerometermlZ+10;
-			}
-			if (accelerometerlZ<accelerometermlZ-10)
-			{
-				accelerometerlZ=accelerometermlZ-10;
-			}
-*/
-
-				accelerometerlX=(accelerometerX-accelerometermX)*accelerometerdTime*accelerometerdTime/1000000000/10000;
-				accelerometerlY=(accelerometerY-accelerometermY)*accelerometerdTime*accelerometerdTime/1000000000/10000;
-				accelerometerlZ=(accelerometerZ-accelerometermZ)*accelerometerdTime*accelerometerdTime/1000000000/10000;
-
-				recentCmdTextView.setText(accelerometerlX+"    "+accelerometerlY+"    "+accelerometerlZ);
-
-				if(Math.abs(accelerometerlX )>= 1 ||Math.abs(accelerometerlY ) >= 1)
-				{
-					if (accelerometerlX<0||accelerometerlY<0)
-					{
-						cmd="xdotool mousemove_relative -- "+(accelerometerlX)*5 +" "+(accelerometerlY)*5;
-					}
-					else
-					{
-
-						cmd="xdotool mousemove_relative "+(accelerometerlX)*5 +" "+(accelerometerlY)*5;
-					}
-					conn.executeShellCommand(cmd);
-				}
-				if(accelerometerX<1&&accelerometerY<1)
-				{
-					accelerometersX=0;
-					accelerometerlX=0;
-					accelerometersY=0;
-					accelerometerlY=0;
-				}
-				if (accelerometerlZ>=5)
-				{
-					cmd="xdotool click 4";
-					conn.executeShellCommand(cmd);
-				}
-				else if (accelerometerlZ<=-5)
-				{
-					cmd="xdotool click 5";
-					conn.executeShellCommand(cmd);
-				}
-				if(accelerometerZ<1)
-				{
-
-					accelerometersZ=0;
-					accelerometerlZ=0;
-				}
-				accelerometermX=accelerometerX;
-				accelerometermY=accelerometerY;
-				accelerometermZ=accelerometerZ;
-				accelerometermTime=accelerometerTime;
-
-				accelerometermsX=accelerometersX;
-				accelerometermsY=accelerometersY;
-				accelerometermsZ=accelerometersZ;
-
-				accelerometermlX=accelerometerlX;
-				accelerometermlY=accelerometerlY;
-				accelerometermlZ=accelerometerlZ;
-			}
-
-		}
-		else if(sensorEvent.sensor.getType()==Sensor.TYPE_GYROSCOPE)
+		if(sensorEvent.sensor.getType()==Sensor.TYPE_GYROSCOPE)
 		{
 			float gyroscopeX=sensorEvent.values[1];
 			float gyroscopeY=sensorEvent.values[0];
