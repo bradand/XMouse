@@ -13,6 +13,7 @@ Features
 - Tested on Ubuntu Linux, not windows, not mac
 - Minimal design
 - Free with no ads
+- Gyroscope mouse (X and Y axis for cursor movement, Z for scrolling)
 
 Required programs on Linux host machine
 - openssh-server
