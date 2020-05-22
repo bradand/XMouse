@@ -3,6 +3,8 @@ package com.stripe1.xmouse;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ClipboardManager;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -230,7 +232,7 @@ public class MyConnectionHandler {
         if(session.isConnected()){
             //log.append(cmd);
             SshExecTask  t = (SshExecTask) new SshExecTask(myActivity,cmd) {
-                protected void onPostExecute(String result) {
+                protected void onPostExecute(final String result) {
                     if (dialog.isShowing()) {
                         dialog.dismiss();
                     }
@@ -238,9 +240,20 @@ public class MyConnectionHandler {
                     AlertDialog.Builder builder = new AlertDialog.Builder(myActivity);
                     builder.setTitle(cmd);
                     builder.setMessage(result);
-                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.setPositiveButton("Copy", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                                // Gets a handle to the clipboard service.
+                                ClipboardManager clipboard = (ClipboardManager) myActivity.getSystemService(Context.CLIPBOARD_SERVICE);
+                                // Creates a new text clip to put on the clipboard
+                                ClipData clip = ClipData.newPlainText("xmouse script output", result);
+                                clipboard.setPrimaryClip(clip);
 
                         }
                     });
