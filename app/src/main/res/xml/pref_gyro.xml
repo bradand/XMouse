@@ -1,0 +1,40 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+   
+	<ListPreference
+        android:defaultValue="1.0f"
+        android:entries="@array/pref_gyro_z_sensitivity_list_titles"
+        android:entryValues="@array/pref_gyro_z_sensitivity_list_values"
+        android:key="gyro_z_sensitivity_list"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_gyro_z_sensitivity" />
+
+	<ListPreference
+        android:defaultValue="1.0f"
+        android:entries="@array/pref_gyro_y_sensitivity_list_titles"
+        android:entryValues="@array/pref_gyro_y_sensitivity_list_values"
+        android:key="gyro_y_sensitivity_list"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_gyro_y_sensitivity" />
+
+	<ListPreference
+        android:defaultValue="1.0f"
+        android:entries="@array/pref_gyro_z_threshold_list_titles"
+        android:entryValues="@array/pref_gyro_z_threshold_list_values"
+        android:key="gyro_z_threshold_list"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_gyro_z_threshold" />
+
+	<ListPreference
+        android:defaultValue="1.0f"
+        android:entries="@array/pref_gyro_y_threshold_list_titles"
+        android:entryValues="@array/pref_gyro_y_threshold_list_values"
+        android:key="gyro_y_threshold_list"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_gyro_y_threshold" />
+
+</PreferenceScreen>
