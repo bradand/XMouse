@@ -16,6 +16,15 @@
     
     <string name="pref_title_sensitivity">Mouse sensitivity</string>
 
+    <string name="pref_title_gyro_z_sensitivity">Gyro z sensitivity</string>
+    <string name="pref_title_gyro_y_sensitivity">Gyro y sensitivity</string>
+    <string name="pref_title_gyro_z_threshold">Gyro z threshold</string>
+    <string name="pref_title_gyro_y_threshold">Gyro y threshold</string>
+
+
+
+
+
     <string name="pref_title_setting_host">Host</string>
     <string name="pref_title_setting_user">Username</string>
     <string name="pref_title_setting_port">Port</string>
@@ -36,17 +45,81 @@
     <string name="pref_title_shell">Login Shell (empty for default)</string>
 
     <string-array name="pref_sensitivity_list_titles">
+        <item>Low, .5X</item>
         <item>Normal, 1X</item>
         <item>Increased, 1.5X</item>
         <item>High, 2X</item>
         <item>Super, 3X</item>
     </string-array>
     <string-array name="pref_sensitivity_list_values">
+        <item>.5f</item>
         <item>1.0f</item>
         <item>1.5f</item>
         <item>2.0f</item>
         <item>3.0f</item>
     </string-array>
+
+
+    <string-array name="pref_gyro_z_sensitivity_list_titles">
+        <item>Low, .5X</item>
+        <item>Normal, 1X</item>
+        <item>Increased, 1.5X</item>
+        <item>High, 2X</item>
+        <item>Super, 3X</item>
+    </string-array>
+    <string-array name="pref_gyro_z_sensitivity_list_values">
+        <item>.5f</item>
+        <item>1.0f</item>
+        <item>1.5f</item>
+        <item>2.0f</item>
+        <item>3.0f</item>
+    </string-array>
+
+    <string-array name="pref_gyro_y_sensitivity_list_titles">
+        <item>Low, .5X</item>
+        <item>Normal, 1X</item>
+        <item>Increased, 1.5X</item>
+        <item>High, 2X</item>
+        <item>Super, 3X</item>
+    </string-array>
+    <string-array name="pref_gyro_y_sensitivity_list_values">
+        <item>.5f</item>
+        <item>1.0f</item>
+        <item>1.5f</item>
+        <item>2.0f</item>
+        <item>3.0f</item>
+    </string-array>
+
+    <string-array name="pref_gyro_z_threshold_list_titles">
+        <item>Low, .5X</item>
+        <item>Normal, 1X</item>
+        <item>Increased, 1.5X</item>
+        <item>High, 2X</item>
+        <item>Super, 3X</item>
+    </string-array>
+    <string-array name="pref_gyro_z_threshold_list_values">
+        <item>.5f</item>
+        <item>1.0f</item>
+        <item>1.5f</item>
+        <item>2.0f</item>
+        <item>3.0f</item>
+    </string-array>
+
+    <string-array name="pref_gyro_y_threshold_list_titles">
+        <item>Low, .5X</item>
+        <item>Normal, 1X</item>
+        <item>Increased, 1.5X</item>
+        <item>High, 2X</item>
+        <item>Super, 3X</item>
+    </string-array>
+    <string-array name="pref_gyro_y_threshold_list_values">
+        <item>.5f</item>
+        <item>1.0f</item>
+        <item>1.5f</item>
+        <item>2.0f</item>
+        <item>3.0f</item>
+    </string-array>
+
 
     <!-- Example settings for Data & Sync -->
     <string name="pref_header_data_sync">Connections</string>

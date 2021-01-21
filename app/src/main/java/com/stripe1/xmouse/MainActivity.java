@@ -71,6 +71,16 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 	public static String setting_pass="";
 	public static String setting_shell = "";
 	public static float setting_sensitivity=1.5f;
+
+
+
+	public static float setting_gyro_z_sensitivity=1.5f;
+	public static float setting_gyro_y_sensitivity=1.5f;
+	public static float setting_gyro_z_threshold=1.5f;
+	public static float setting_gyro_y_threshold=1.5f;
+
+
+
 	boolean setting_autoconnect=false;
 	private static boolean setting_keyboard_locked=false;
 	public static String setting_xdotool_initial="";
@@ -394,6 +404,14 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 			//Log.d("prefTest",setting_host+" "+setting_user+" "+setting_pass+" "+setting_port);
 
 			setting_sensitivity = Float.valueOf(prefs.getString("sensitivity_list", "1.0f"));
+
+
+			setting_gyro_z_sensitivity = Float.valueOf(prefs.getString("gyro_z_sensitivity_list", "1.5f"));
+			setting_gyro_y_sensitivity = Float.valueOf(prefs.getString("gyro_y_sensitivity_list", "1.5f"));
+			setting_gyro_z_threshold = Float.valueOf(prefs.getString("gyro_z_threshold_list", "1.5f"));
+			setting_gyro_y_threshold = Float.valueOf(prefs.getString("gyro_y_threshold_list", "1.5f"));
+
+
 			setting_autoconnect=prefs.getBoolean("autologin_checkbox", false);
 			setting_xdotool_initial=prefs.getString("setting_xdotool_initial", "export DISPLAY=':0' && unset HISTFILE");
 			setting_shell = prefs.getString("setting_shell", "");
@@ -1179,26 +1197,29 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 			float gyroscopeY=sensorEvent.values[0];
 			float gyroscopeZ=sensorEvent.values[2];
 
+			gyroscopeY*=setting_gyro_y_sensitivity;
+			gyroscopeZ*=setting_gyro_z_sensitivity;
+
 			String cmd;
 
 			Switch mouseSwitch=findViewById(R.id.mouseSwitch);
 			if (mouseSwitch.isChecked()) {
-				if (Math.abs(gyroscopeX) >= 2 || Math.abs(gyroscopeY) >= 2) {
-					if (gyroscopeX < 0 || gyroscopeY < 0) {
-						cmd = "xdotool mousemove_relative -- " + (gyroscopeX) * 5 + " " + (gyroscopeY) * 5;
+				if (Math.abs(gyroscopeZ) >= setting_gyro_z_threshold || Math.abs(gyroscopeY) >= setting_gyro_y_threshold) {
+					if (gyroscopeZ < 0 || gyroscopeY < 0) {
+						cmd = "xdotool mousemove_relative -- " + (gyroscopeZ) * -15 + " " + (gyroscopeY) * -15;
 					} else {
 
-						cmd = "xdotool mousemove_relative " + (gyroscopeX) * 5 + " " + (gyroscopeY) * 5;
+						cmd = "xdotool mousemove_relative " + (gyroscopeZ) * -15 + " " + (gyroscopeY) * -15;
 					}
 					conn.executeShellCommand(cmd);
 				}
-				if (gyroscopeZ >= 3) {
+				/*if (gyroscopeZ >= 3) {
 					cmd = "xdotool click 4";
 					conn.executeShellCommand(cmd);
 				} else if (gyroscopeZ <= -3) {
 					cmd = "xdotool click 5";
 					conn.executeShellCommand(cmd);
-				}
+				}*/
 			}
 		}
 	}
