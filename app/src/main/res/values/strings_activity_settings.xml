@@ -45,6 +45,8 @@
     <string name="pref_title_shell">Login Shell (empty for default)</string>
 
     <string-array name="pref_sensitivity_list_titles">
+        <item>Tiny, .25X</item>
+        <item>Lower, .33X</item>
         <item>Low, .5X</item>
         <item>Normal, 1X</item>
         <item>Increased, 1.5X</item>
@@ -52,6 +54,8 @@
         <item>Super, 3X</item>
     </string-array>
     <string-array name="pref_sensitivity_list_values">
+        <item>.25f</item>
+        <item>.3333f</item>
         <item>.5f</item>
         <item>1.0f</item>
         <item>1.5f</item>
