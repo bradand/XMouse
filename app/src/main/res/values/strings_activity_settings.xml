@@ -16,6 +16,7 @@
     
     <string name="pref_title_sensitivity">Mouse sensitivity</string>
     <string name="pref_title_delay">Mouse drag delay</string>
+    <string name="pref_title_mdelay">Mouse multidrag delay</string>
 
     <string name="pref_title_gyro_z_sensitivity">Gyro z sensitivity</string>
     <string name="pref_title_gyro_y_sensitivity">Gyro y sensitivity</string>
@@ -76,6 +77,22 @@
         <item>350</item>
         <item>500</item>
         <item>750</item>
+    </string-array>
+    <string-array name="pref_mdelay_list_titles">
+        <item>Off</item>
+        <item>Faster, 300ms</item>
+        <item>Fast, 500ms</item>
+        <item>Normal, 750ms</item>
+        <item>Slow, 1000ms</item>
+        <item>Slower, 2000ms</item>
+    </string-array>
+    <string-array name="pref_mdelay_list_values">
+        <item>0</item>
+        <item>300</item>
+        <item>500</item>
+        <item>750</item>
+        <item>1000</item>
+        <item>2000</item>
     </string-array>
 
 

@@ -32,6 +32,7 @@ public class MyMouseView extends View {
     Canvas canvas;
     PointF start = new PointF();
     long downStart = 0;
+    long downEnd = 0;
     boolean dragging = false;
     boolean draggable = true;
     boolean touching = false;
@@ -159,7 +160,7 @@ public class MyMouseView extends View {
         mY = y;
 
     }
-    private void touch_move(float x, float y) {
+    private void touch_move(float x, float y, boolean silent) {
 
         if (scrolling) {
             x = w - scrollStart / 2;
@@ -175,7 +176,7 @@ public class MyMouseView extends View {
         if (!zooming) {
 
             if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
-                mPath.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
+                if(!silent) mPath.quadTo(mX, mY, (x+mX)/2, (y+mY)/2);
                 mX = x;
                 mY = y;
 
@@ -188,18 +189,18 @@ public class MyMouseView extends View {
 
             mPath.reset();
             mPath.setLastPoint(curr.x,curr.y);
-            mPath.lineTo(yX,yY);
+            if(!silent) mPath.lineTo(yX,yY);
             //Log.d("current points","curr.x="+curr.x+" curr.y="+curr.y+" yX="+yX+"yY="+yY);
 
         }
 
     }
-    private void touch_up() {
+    private void touch_up(boolean linger) {
         mPath.lineTo(mX, mY);
         // commit the path to our offscreen
         //mCanvas.drawPath(mPath, mPaint);
         // kill this so we don't double draw
-        mPath.reset();
+        if(!linger) mPath.reset();
         scrolling=false;
         touching=false;
     }
@@ -213,9 +214,16 @@ public class MyMouseView extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
 
-                start.set(curr);
                 downStart = System.currentTimeMillis();
-                touch_start(x, y);
+                if(downStart - downEnd < MainActivity.setting_mdelay){
+                        touch_move(x, y, true);
+                        mPath.moveTo(x,y);
+                        OnXMouseClicked(ClickType.Drag_Down);
+                        dragging=true;
+                } else {
+                        start.set(curr);
+                        touch_start(x, y);
+                }
                 invalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -274,7 +282,7 @@ public class MyMouseView extends View {
                     //Log.d("onTouchEvent","move outside click");
                     draggable=false;
                 }
-                touch_move(x, y);
+                touch_move(x, y, false);
 
                 invalidate();
                 break;
@@ -296,6 +304,11 @@ public class MyMouseView extends View {
                 if(dragging){
                     dragging=false;
                     OnXMouseClicked(ClickType.Drag_up);
+                    if(MainActivity.setting_mdelay > 0){
+                            downEnd = System.currentTimeMillis();
+                    }
+                } else {
+                        downEnd = 0;
                 }
 
 
@@ -303,7 +316,7 @@ public class MyMouseView extends View {
                 zooming=false;
                 draggable=true;
                 twoFingerScroll=false;
-                touch_up();
+                touch_up(downEnd > 0);
                 invalidate();
 
                     /*if(MainActivity.setting_mouse_background){
