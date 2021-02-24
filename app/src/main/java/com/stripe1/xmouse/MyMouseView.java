@@ -262,7 +262,7 @@ public class MyMouseView extends View {
                 long thisTime = System.currentTimeMillis()-downStart;
                 if (xDiff1 < CLICK*6 && yDiff1 < CLICK*6){
                     //Log.d("onTouchEvent","move inside click");
-                    if(draggable && dragging==false && thisTime>350){
+                    if(draggable && dragging==false && thisTime>MainActivity.setting_delay){
                         //Log.d("onTouchEvent","start drag");
                         OnXMouseClicked(ClickType.Drag_Down);
                         dragging=true;

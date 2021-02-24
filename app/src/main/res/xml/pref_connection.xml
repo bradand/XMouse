@@ -54,6 +54,14 @@
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
         android:title="@string/pref_title_sensitivity" />
+    <ListPreference
+        android:defaultValue="350"
+        android:entries="@array/pref_delay_list_titles"
+        android:entryValues="@array/pref_delay_list_values"
+        android:key="delay_list"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_delay" />
 
     <CheckBoxPreference
         android:defaultValue="false"
