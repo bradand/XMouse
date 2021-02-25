@@ -36,6 +36,9 @@ public class MyMouseView extends View {
     boolean draggable = true;
     boolean touching = false;
 
+    // coordinate rounding errors
+    private float reX = 0;
+    private float reY = 0;
 
     enum ClickType {
 
@@ -338,6 +341,14 @@ public class MyMouseView extends View {
 
         dx=dx*MainActivity.setting_sensitivity;
         dy=dy*MainActivity.setting_sensitivity;
+
+        dx += reX;
+        dy += reY;
+        reX = dx - Math.round(dx);
+        reY = dy - Math.round(dy);
+        dx -= reX;
+        dy -= reY;
+
         String cmd="";
         if(dx <0 || dy <0){
             cmd="xdotool mousemove_relative -- "+dx+" "+dy;
