@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 	public static String setting_pass="";
 	public static String setting_shell = "";
 	public static float setting_sensitivity=1.5f;
+	public static int setting_delay=350;
+	public static int setting_mdelay=0;
 
 
 
@@ -404,6 +406,8 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 			//Log.d("prefTest",setting_host+" "+setting_user+" "+setting_pass+" "+setting_port);
 
 			setting_sensitivity = Float.valueOf(prefs.getString("sensitivity_list", "1.0f"));
+			setting_delay = Integer.valueOf(prefs.getString("delay_list", "350"));
+			setting_mdelay = Integer.valueOf(prefs.getString("mdelay_list", "0"));
 
 
 			setting_gyro_z_sensitivity = Float.valueOf(prefs.getString("gyro_z_sensitivity_list", "1.5f"));
