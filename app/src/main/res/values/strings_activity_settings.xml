@@ -15,6 +15,8 @@
     <string name="pref_title_overlay">Overlay command log</string>
     
     <string name="pref_title_sensitivity">Mouse sensitivity</string>
+    <string name="pref_title_delay">Mouse drag delay</string>
+    <string name="pref_title_mdelay">Mouse multidrag delay</string>
 
     <string name="pref_title_gyro_z_sensitivity">Gyro z sensitivity</string>
     <string name="pref_title_gyro_y_sensitivity">Gyro y sensitivity</string>
@@ -45,6 +47,8 @@
     <string name="pref_title_shell">Login Shell (empty for default)</string>
 
     <string-array name="pref_sensitivity_list_titles">
+        <item>Tiny, .25X</item>
+        <item>Lower, .33X</item>
         <item>Low, .5X</item>
         <item>Normal, 1X</item>
         <item>Increased, 1.5X</item>
@@ -52,11 +56,43 @@
         <item>Super, 3X</item>
     </string-array>
     <string-array name="pref_sensitivity_list_values">
+        <item>.25f</item>
+        <item>.3333f</item>
         <item>.5f</item>
         <item>1.0f</item>
         <item>1.5f</item>
         <item>2.0f</item>
         <item>3.0f</item>
+    </string-array>
+    <string-array name="pref_delay_list_titles">
+        <item>Faster, 100ms</item>
+        <item>Fast, 250ms</item>
+        <item>Normal, 350ms</item>
+        <item>Slow, 500ms</item>
+        <item>Slower, 750ms</item>
+    </string-array>
+    <string-array name="pref_delay_list_values">
+        <item>100</item>
+        <item>250</item>
+        <item>350</item>
+        <item>500</item>
+        <item>750</item>
+    </string-array>
+    <string-array name="pref_mdelay_list_titles">
+        <item>Off</item>
+        <item>Faster, 300ms</item>
+        <item>Fast, 500ms</item>
+        <item>Normal, 750ms</item>
+        <item>Slow, 1000ms</item>
+        <item>Slower, 2000ms</item>
+    </string-array>
+    <string-array name="pref_mdelay_list_values">
+        <item>0</item>
+        <item>300</item>
+        <item>500</item>
+        <item>750</item>
+        <item>1000</item>
+        <item>2000</item>
     </string-array>
 
 

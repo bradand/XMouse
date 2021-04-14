@@ -310,6 +310,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         //bindPreferenceSummaryToValue(findPreference("autologin_checkbox"));
         bindPreferenceSummaryToValue(findPreference("pref_addkeybutton"));
         bindPreferenceSummaryToValue(findPreference("sensitivity_list"));
+        bindPreferenceSummaryToValue(findPreference("delay_list"));
+        bindPreferenceSummaryToValue(findPreference("mdelay_list"));
         bindPreferenceSummaryToValue(findPreference("setting_xdotool_initial"));
         bindPreferenceSummaryToValue(findPreference("setting_shell"));
 
