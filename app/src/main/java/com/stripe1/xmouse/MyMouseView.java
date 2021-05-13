@@ -87,7 +87,8 @@ public class MyMouseView extends View {
         //canvas.drawColor(0xFFAAAA4C);
         canvas=c;
         canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
-        mPaint.setColor(Color.WHITE);
+
+        mPaint.setColor(Color.BLUE);
         mPaint.setStrokeWidth(3);
         canvas.drawLine(w-scrollStart, h*0.1f, w-scrollStart, h*0.9f, mPaint);
 
@@ -127,6 +128,8 @@ public class MyMouseView extends View {
                 }
             }
         }
+
+
     }
 
     private boolean twoFingerScroll = false;
@@ -208,24 +211,27 @@ public class MyMouseView extends View {
         touching=false;
     }
 
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
         float y = event.getY();
         curr = new PointF(event.getX(), event.getY());
         double newDist = 0;
+
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
 
                 downStart = System.currentTimeMillis();
-                if(downStart - downEnd < MainActivity.setting_mdelay){
-                        touch_move(x, y, true);
-                        mPath.moveTo(x,y);
-                        OnXMouseClicked(ClickType.Drag_Down);
-                        dragging=true;
+                if (downStart - downEnd < MainActivity.setting_mdelay) {
+                    touch_move(x, y, true);
+                    mPath.moveTo(x, y);
+                    OnXMouseClicked(ClickType.Drag_Down);
+                    dragging = true;
                 } else {
-                        start.set(curr);
-                        touch_start(x, y);
+                    start.set(curr);
+                    touch_start(x, y);
                 }
                 invalidate();
                 break;
@@ -241,49 +247,48 @@ public class MyMouseView extends View {
                     yY = (float) MotionEventCompat.getY(event, 1);
 
                     newDist = Math.sqrt(Math.pow(yX - x, 2) + Math.pow(yY - y, 2));
-                    if(firstTouch){
-                        dist=newDist;
-                        firstTouch=false;
+                    if (firstTouch) {
+                        dist = newDist;
+                        firstTouch = false;
                     }
 
-                    scaleFactor = (newDist-dist)/dist;
+                    scaleFactor = (newDist - dist) / dist;
                     //Log.d("diffmon","newDist="+newDist+" scalefactor=" + scaleFactor);
 
-                    if(Math.abs(scaleFactor)>0.5){
-                        zooming=true;
+                    if (Math.abs(scaleFactor) > 0.5) {
+                        zooming = true;
                         zoomCounter++;
-                        if(zoomCounter>zoomOverFlow) {
+                        if (zoomCounter > zoomOverFlow) {
 
                             if (scaleFactor > 0) {
                                 OnXMouseClicked(ClickType.Zoom_in);
                             } else {
                                 OnXMouseClicked(ClickType.Zoom_out);
                             }
-                            zoomCounter=0;
+                            zoomCounter = 0;
                         }
 
-                    }else if(!zooming){
-                        twoFingerScroll=true;
-                        scrolling=true;
+                    } else if (!zooming) {
+                        twoFingerScroll = true;
+                        scrolling = true;
 
                     }
                 }
 
                 //Log.d("onTouchEvent",xDiff1+" "+yDiff1+" "+CLICK);
-                long thisTime = System.currentTimeMillis()-downStart;
-                if (xDiff1 < CLICK*6 && yDiff1 < CLICK*6){
+                long thisTime = System.currentTimeMillis() - downStart;
+                if (xDiff1 < CLICK * 6 && yDiff1 < CLICK * 6) {
                     //Log.d("onTouchEvent","move inside click");
-                    if(draggable && dragging==false && thisTime>MainActivity.setting_delay){
+                    if (draggable && dragging == false && thisTime > MainActivity.setting_delay) {
                         //Log.d("onTouchEvent","start drag");
                         OnXMouseClicked(ClickType.Drag_Down);
-                        dragging=true;
+                        dragging = true;
                     }
 
 
-
-                }else{
+                } else {
                     //Log.d("onTouchEvent","move outside click");
-                    draggable=false;
+                    draggable = false;
                 }
                 touch_move(x, y, false);
 
@@ -293,57 +298,57 @@ public class MyMouseView extends View {
 
                 int xDiff = (int) Math.abs(curr.x - start.x);
                 int yDiff = (int) Math.abs(curr.y - start.y);
-                if (xDiff < CLICK && yDiff < CLICK){
+                if (xDiff < CLICK && yDiff < CLICK) {
                     //Log.d("onTouchEvent", "up click");
-                    if(scrolling){
+                    if (scrolling) {
                         OnXMouseClicked(ClickType.Right_click);
-                    }else{
+                    } else {
                         OnXMouseClicked(ClickType.Left_click);
                     }
 
-                }else{
+                } else {
                     //Log.d("onTouchEvent","up outside click");
                 }
-                if(dragging){
-                    dragging=false;
+                if (dragging) {
+                    dragging = false;
                     OnXMouseClicked(ClickType.Drag_up);
-                    if(MainActivity.setting_mdelay > 0){
-                            downEnd = System.currentTimeMillis();
+                    if (MainActivity.setting_mdelay > 0) {
+                        downEnd = System.currentTimeMillis();
                     }
                 } else {
-                        downEnd = 0;
+                    downEnd = 0;
                 }
 
 
-                firstTouch=true;
-                zooming=false;
-                draggable=true;
-                twoFingerScroll=false;
+                firstTouch = true;
+                zooming = false;
+                draggable = true;
+                twoFingerScroll = false;
                 touch_up(downEnd > 0);
                 invalidate();
 
-                    /*if(MainActivity.setting_mouse_background){
-                    	if(MainActivity.session!=null){
-                    		if(MainActivity.session.isConnected()){
+                /*if(MainActivity.setting_mouse_background){
+                    if(MainActivity.session!=null){
+                        if(MainActivity.session.isConnected()){
 
-		                    	SshScpTask scp = new SshScpTask(getActivity(),"100","100"){
-		            				protected void onPostExecute(String result) {
-		            					Log.d("SshScpTask","onPostExecute");
-		            					try {
-											//FileInputStream fis = getActivity().openFileInput("mouse_bg.jpg");
-											Bitmap mBitmap = BitmapFactory.decodeFile(getActivity().getFilesDir().getAbsoluteFile()+"/mouse_bg.jpg");
-											//Bitmap mBitmap = Bitmap.createScaledBitmap(Bitmap src, int dstWidth, int dstHeight, boolean filter);
-											canvas = new Canvas(mBitmap.copy(Bitmap.Config.ARGB_8888, true));
-										} catch (Exception e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
-		            				}
-		            			};
-		            			scp.execute("");
-                    		}
-                    	}
-                    }*/
+                            SshScpTask scp = new SshScpTask(getActivity(),"100","100"){
+                                protected void onPostExecute(String result) {
+                                    Log.d("SshScpTask","onPostExecute");
+                                    try {
+                                        //FileInputStream fis = getActivity().openFileInput("mouse_bg.jpg");
+                                        Bitmap mBitmap = BitmapFactory.decodeFile(getActivity().getFilesDir().getAbsoluteFile()+"/mouse_bg.jpg");
+                                        //Bitmap mBitmap = Bitmap.createScaledBitmap(Bitmap src, int dstWidth, int dstHeight, boolean filter);
+                                        canvas = new Canvas(mBitmap.copy(Bitmap.Config.ARGB_8888, true));
+                                    } catch (Exception e) {
+                                        // TODO Auto-generated catch block
+                                        e.printStackTrace();
+                                    }
+                                }
+                            };
+                            scp.execute("");
+                        }
+                    }
+                }*/
                 break;
         }
         return true;
@@ -351,6 +356,7 @@ public class MyMouseView extends View {
 
 
     public void OnXMouseMoved(float dx, float dy,boolean scroll) {
+
 
         dx=dx*MainActivity.setting_sensitivity;
         dy=dy*MainActivity.setting_sensitivity;

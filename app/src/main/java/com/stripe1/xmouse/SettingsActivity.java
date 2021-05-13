@@ -279,21 +279,28 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         //listPrefKeys.setEnabled(false);
 
 
-        ///\\\
         fakeHeader = new PreferenceCategory(this);
         fakeHeader.setTitle("Gyro");
         getPreferenceScreen().addPreference(fakeHeader);
         addPreferencesFromResource(R.xml.pref_gyro);
-        // Bind the summaries of EditText/List/Dialog/Ringtone preferences to
-        // their values. When their values change, their summaries are updated
-        // to reflect the new value, per the Android Design guidelines.
 
 
         bindPreferenceSummaryToValue(findPreference("gyro_z_sensitivity_list"));
         bindPreferenceSummaryToValue(findPreference("gyro_y_sensitivity_list"));
         bindPreferenceSummaryToValue(findPreference("gyro_z_threshold_list"));
         bindPreferenceSummaryToValue(findPreference("gyro_y_threshold_list"));
-        ///\\\
+
+
+        fakeHeader = new PreferenceCategory(this);
+        fakeHeader.setTitle("Joystick");
+        getPreferenceScreen().addPreference(fakeHeader);
+        addPreferencesFromResource(R.xml.pref_js);
+
+
+        bindPreferenceSummaryToValue(findPreference("js_sensitivity_list"));
+        bindPreferenceSummaryToValue(findPreference("js_size_list"));
+        bindPreferenceSummaryToValue(findPreference("js_dead_zone_list"));
+
 
 
         fakeHeader = new PreferenceCategory(this);
