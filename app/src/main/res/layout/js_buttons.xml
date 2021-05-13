@@ -7,63 +7,63 @@
     android:layout_height="wrap_content">
 
     <Button
-        android:id="@+id/firstMouseButton"
+        android:id="@+id/js_firstMouseButton"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:onClick="xMouseClickMouse"
-        app:layout_constraintEnd_toStartOf="@id/secondMouseButton"
-        app:layout_constraintStart_toEndOf="@id/fifthMouseButton"
+        app:layout_constraintEnd_toStartOf="@id/js_secondMouseButton"
+        app:layout_constraintStart_toEndOf="@id/js_fifthMouseButton"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <Button
-        android:id="@+id/secondMouseButton"
+        android:id="@+id/js_secondMouseButton"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:onClick="xMouseClickMouse"
-        app:layout_constraintEnd_toStartOf="@id/thirdMouseButton"
-        app:layout_constraintStart_toEndOf="@id/firstMouseButton"
+        app:layout_constraintEnd_toStartOf="@id/js_thirdMouseButton"
+        app:layout_constraintStart_toEndOf="@id/js_firstMouseButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/thirdMouseButton"
+        android:id="@+id/js_thirdMouseButton"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:onClick="xMouseClickMouse"
-        app:layout_constraintEnd_toStartOf="@id/fourthMouseButton"
-        app:layout_constraintStart_toEndOf="@id/secondMouseButton"
+        app:layout_constraintEnd_toStartOf="@id/js_fourthMouseButton"
+        app:layout_constraintStart_toEndOf="@id/js_secondMouseButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/fourthMouseButton"
+        android:id="@+id/js_fourthMouseButton"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:onClick="xMouseClickMouse"
-        app:layout_constraintEnd_toStartOf="@id/jsToggle"
-        app:layout_constraintStart_toEndOf="@id/thirdMouseButton"
+        app:layout_constraintEnd_toStartOf="@id/js_jsToggle"
+        app:layout_constraintStart_toEndOf="@id/js_thirdMouseButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/fifthMouseButton"
+        android:id="@+id/js_fifthMouseButton"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:onClick="xMouseClickMouse"
-        app:layout_constraintStart_toEndOf="@id/gyroToggle"
-        app:layout_constraintEnd_toStartOf="@id/firstMouseButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/js_firstMouseButton"
         app:layout_constraintTop_toTopOf="parent" />
-
+<!--
     <ToggleButton
-        android:id="@+id/gyroToggle"
+        android:id="@+id/js_gyroToggle"
         android:layout_width="0dp"
         android:layout_height="60dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/fifthMouseButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@id/js_fifthMouseButton"
+        app:layout_constraintTop_toTopOf="parent" />-->
     <Button
-        android:id="@+id/jsToggle"
+        android:id="@+id/js_jsToggle"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        app:layout_constraintStart_toEndOf="@id/fourthMouseButton"
+        app:layout_constraintStart_toEndOf="@id/js_fourthMouseButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

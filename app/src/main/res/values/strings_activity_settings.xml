@@ -24,7 +24,9 @@
     <string name="pref_title_gyro_y_threshold">Gyro y threshold</string>
 
 
-
+    <string name="pref_title_js_sensitivity">Joystick sensitivity</string>
+    <string name="pref_title_js_size">Joystick size</string>
+    <string name="pref_title_js_dead_zone">Joystick dead zone</string>
 
 
     <string name="pref_title_setting_host">Host</string>
@@ -97,6 +99,8 @@
 
 
     <string-array name="pref_gyro_z_sensitivity_list_titles">
+        <item>Tiny, .25X</item>
+        <item>Lower, .33X</item>
         <item>Low, .5X</item>
         <item>Normal, 1X</item>
         <item>Increased, 1.5X</item>
@@ -104,6 +108,8 @@
         <item>Super, 3X</item>
     </string-array>
     <string-array name="pref_gyro_z_sensitivity_list_values">
+        <item>.25f</item>
+        <item>.3333f</item>
         <item>.5f</item>
         <item>1.0f</item>
         <item>1.5f</item>
@@ -112,6 +118,8 @@
     </string-array>
 
     <string-array name="pref_gyro_y_sensitivity_list_titles">
+        <item>Tiny, .25X</item>
+        <item>Lower, .33X</item>
         <item>Low, .5X</item>
         <item>Normal, 1X</item>
         <item>Increased, 1.5X</item>
@@ -119,6 +127,8 @@
         <item>Super, 3X</item>
     </string-array>
     <string-array name="pref_gyro_y_sensitivity_list_values">
+        <item>.25f</item>
+        <item>.3333f</item>
         <item>.5f</item>
         <item>1.0f</item>
         <item>1.5f</item>
@@ -127,6 +137,8 @@
     </string-array>
 
     <string-array name="pref_gyro_z_threshold_list_titles">
+        <item>Tiny, .25X</item>
+        <item>Lower, .33X</item>
         <item>Low, .5X</item>
         <item>Normal, 1X</item>
         <item>Increased, 1.5X</item>
@@ -134,6 +146,8 @@
         <item>Super, 3X</item>
     </string-array>
     <string-array name="pref_gyro_z_threshold_list_values">
+        <item>.25f</item>
+        <item>.3333f</item>
         <item>.5f</item>
         <item>1.0f</item>
         <item>1.5f</item>
@@ -142,6 +156,8 @@
     </string-array>
 
     <string-array name="pref_gyro_y_threshold_list_titles">
+        <item>Tiny, .25X</item>
+        <item>Lower, .33X</item>
         <item>Low, .5X</item>
         <item>Normal, 1X</item>
         <item>Increased, 1.5X</item>
@@ -149,11 +165,79 @@
         <item>Super, 3X</item>
     </string-array>
     <string-array name="pref_gyro_y_threshold_list_values">
+        <item>.25f</item>
+        <item>.3333f</item>
         <item>.5f</item>
         <item>1.0f</item>
         <item>1.5f</item>
         <item>2.0f</item>
         <item>3.0f</item>
+    </string-array>
+
+
+
+    <string-array name="pref_js_sensitivity_list_titles">
+        <item>Tiny, .25X</item>
+        <item>Lower, .33X</item>
+        <item>Low, .5X</item>
+        <item>Normal, 1X</item>
+        <item>Increased, 1.5X</item>
+        <item>High, 2X</item>
+        <item>Super, 3X</item>
+    </string-array>
+
+    <string-array name="pref_js_sensitivity_list_values">
+        <item>.25f</item>
+        <item>.3333f</item>
+        <item>.5f</item>
+        <item>1.0f</item>
+        <item>1.5f</item>
+        <item>2.0f</item>
+        <item>3.0f</item>
+    </string-array>
+
+
+    <string-array name="pref_js_size_list_titles">
+        <item>10&#37;</item>
+        <item>.25X</item>
+        <item>.33X</item>
+        <item>.5X</item>
+        <item>.66X</item>
+        <item>.75X</item>
+        <item>.9X</item>
+        <item>1X</item>
+    </string-array>
+
+    <string-array name="pref_js_size_list_values">
+        <item>.1f</item>
+        <item>.25f</item>
+        <item>.3333f</item>
+        <item>.5f</item>
+        <item>.66f</item>
+        <item>.75f</item>
+        <item>.9f</item>
+        <item>1.0f</item>
+    </string-array>
+
+
+    <string-array name="pref_js_dead_zone_list_titles">
+        <item>Off</item>
+        <item>Lower, .01X</item>
+        <item>Low, .05X</item>
+        <item>Normal, .075X</item>
+        <item>Increased, .1X</item>
+        <item>High, .15X</item>
+        <item>Super, .25X</item>
+    </string-array>
+
+    <string-array name="pref_js_dead_zone_list_values">
+        <item>0.0f</item>
+        <item>.01f</item>
+        <item>.05f</item>
+        <item>.075f</item>
+        <item>.1f</item>
+        <item>.15f</item>
+        <item>.25f</item>
     </string-array>
 
 

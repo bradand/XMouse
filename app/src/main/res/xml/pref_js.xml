@@ -1,0 +1,31 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+   
+	<ListPreference
+        android:defaultValue="1.0f"
+        android:entries="@array/pref_js_sensitivity_list_titles"
+        android:entryValues="@array/pref_js_sensitivity_list_values"
+        android:key="js_sensitivity_list"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_js_sensitivity" />
+
+	<ListPreference
+        android:defaultValue=".5f"
+        android:entries="@array/pref_js_size_list_titles"
+        android:entryValues="@array/pref_js_size_list_values"
+        android:key="js_size_list"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_js_size" />
+
+	<ListPreference
+        android:defaultValue="0.0f"
+        android:entries="@array/pref_js_dead_zone_list_titles"
+        android:entryValues="@array/pref_js_dead_zone_list_values"
+        android:key="js_dead_zone_list"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_js_dead_zone" />
+
+</PreferenceScreen>
