@@ -30,13 +30,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -64,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 	LinearLayout mouseLayout;
 	LinearLayout keyboardLayout;
 
+	LinearLayout jsLayout;
+
 	public static ArrayList<ArrayList<String>> hostDBKeys;
 	public static String setting_host="";
 	public static String setting_user="";
@@ -80,6 +84,10 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 	public static float setting_gyro_y_sensitivity=1.5f;
 	public static float setting_gyro_z_threshold=1.5f;
 	public static float setting_gyro_y_threshold=1.5f;
+
+	public static float setting_js_sensitivity=1.0f;
+	public static float setting_js_size=0.5f;
+	public static float setting_js_dead_zone=0.0f;
 
 
 
@@ -114,6 +122,9 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 
 	private Sensor gyroscope;
 
+	private Button jsSwitch;
+	private Button js_jsSwitch;
+
 
 	//private ArrayList<ArrayList<String>> scriptItems = new ArrayList<ArrayList<String>>();
 
@@ -147,18 +158,23 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 
 		switch(v.getId()){
 			case R.id.firstMouseButton:
+			case R.id.js_firstMouseButton:
 				cmd ="xdotool click 1";
 				break;
 			case R.id.secondMouseButton:
+			case R.id.js_secondMouseButton:
 				cmd ="xdotool click 2";
 				break;
 			case R.id.thirdMouseButton:
+			case R.id.js_thirdMouseButton:
 				cmd ="xdotool click 3";
 				break;
 			case R.id.fourthMouseButton:
+			case R.id.js_fourthMouseButton:
 				cmd ="xdotool click 4";
 				break;
 			case R.id.fifthMouseButton:
+			case R.id.js_fifthMouseButton:
 				cmd ="xdotool click 5";
 				break;
 			default:
@@ -191,6 +207,8 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 		gyroscope= sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 		sensorManager.registerListener((SensorEventListener) this,gyroscope,SensorManager.SENSOR_DELAY_FASTEST);
 
+
+
 		fab = (FloatingActionButton) findViewById(R.id.fab);
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -198,11 +216,13 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 				if(keyboardLayout.getVisibility() == View.VISIBLE){
 					mouseLayout.setVisibility(View.VISIBLE);
 					keyboardLayout.setVisibility(View.INVISIBLE);
+					jsLayout.setVisibility(View.INVISIBLE);
 					//Log.d("MainActivity", "Show Mouse");
 					fab.setImageResource(R.drawable.ic_action_hardware_keyboard);
 				}else {
 					keyboardLayout.setVisibility(View.VISIBLE);
 					mouseLayout.setVisibility(View.INVISIBLE);
+					jsLayout.setVisibility(View.INVISIBLE);
 					//Log.d("MainActivity", "Show Keyboard");
 					fab.setImageResource(R.drawable.ic_action_hardware_mouse);
 				}
@@ -216,6 +236,32 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 			}
 		});
 
+		/*fab.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View view) {
+				if(jsLayout.getVisibility() == View.INVISIBLE){
+					mouseLayout.setVisibility(View.INVISIBLE);
+					keyboardLayout.setVisibility(View.INVISIBLE);
+					jsLayout.setVisibility(View.VISIBLE);
+					//Log.d("MainActivity", "Show Mouse");
+					fab.setImageResource(R.drawable.ic_action_hardware_keyboard);
+				}else {
+					keyboardLayout.setVisibility(View.INVISIBLE);
+					mouseLayout.setVisibility(View.VISIBLE);
+					jsLayout.setVisibility(View.INVISIBLE);
+					//Log.d("MainActivity", "Show Keyboard");
+					fab.setImageResource(R.drawable.ic_action_hardware_mouse);
+				}
+				//Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+				//Hides soft keyboard if open
+				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+
+				return true;
+			}
+		});*/
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -226,8 +272,35 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 		mouseLayout = (LinearLayout) findViewById(R.id.mouse);
 		keyboardLayout = (LinearLayout) findViewById(R.id.keyboard);
 
+		jsLayout = (LinearLayout) findViewById(R.id.js);
+
+
+		js_jsSwitch=findViewById(R.id.js_jsToggle);
+
+		jsSwitch=findViewById(R.id.jsToggle);
+
 		mouseLayout.addView(new MyMouseView(getBaseContext()));
 		//keyboardLayout.addView(new MyKeyboardView(getBaseContext(), MainActivity.this));
+
+		jsLayout.addView(new MyJSView(getBaseContext()));
+
+		jsSwitch.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mouseLayout.setVisibility(View.INVISIBLE);
+				//keyboardLayout.setVisibility(View.INVISIBLE);
+				jsLayout.setVisibility(View.VISIBLE);
+			}
+		});
+
+		js_jsSwitch.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mouseLayout.setVisibility(View.VISIBLE);
+				//keyboardLayout.setVisibility(View.INVISIBLE);
+				jsLayout.setVisibility(View.INVISIBLE);
+			}
+		});
 
 		ScrollView scrollView = (ScrollView) findViewById(R.id.key_drag_scrollView);
 		mCoolDragAndDropGridView = (CoolDragAndDropGridView) findViewById(R.id.key_drag_DragAndDropGridView);
@@ -415,6 +488,9 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 			setting_gyro_z_threshold = Float.valueOf(prefs.getString("gyro_z_threshold_list", "1.5f"));
 			setting_gyro_y_threshold = Float.valueOf(prefs.getString("gyro_y_threshold_list", "1.5f"));
 
+			setting_js_sensitivity = Float.valueOf(prefs.getString("js_sensitivity_list", "1.0f"));
+			setting_js_size = Float.valueOf(prefs.getString("js_size_list", "0.5f"));
+			setting_js_dead_zone = Float.valueOf(prefs.getString("js_dead_zone_list", "0.0f"));
 
 			setting_autoconnect=prefs.getBoolean("autologin_checkbox", false);
 			setting_xdotool_initial=prefs.getString("setting_xdotool_initial", "export DISPLAY=':0' && unset HISTFILE");
@@ -785,6 +861,7 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 		drawer.closeDrawer(GravityCompat.START);
 		return true;
 	}
+
 
 	@SuppressLint("RestrictedApi")
 	@Override
@@ -1206,7 +1283,7 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 
 			String cmd;
 
-			Switch mouseSwitch=findViewById(R.id.mouseSwitch);
+			ToggleButton mouseSwitch=findViewById(R.id.gyroToggle);
 			if (mouseSwitch.isChecked()) {
 				if (Math.abs(gyroscopeZ) >= setting_gyro_z_threshold || Math.abs(gyroscopeY) >= setting_gyro_y_threshold) {
 					if (gyroscopeZ < 0 || gyroscopeY < 0) {

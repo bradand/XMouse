@@ -9,4 +9,5 @@
     <string name="action_disconnect">Disconnect</string>
     <string name="title_activity_new_host_settingss">New Host</string>
     <string name="title_activity_list_edit">Edit</string>
+    <string name="app_desc"><![CDATA[XMouse Remote Mouse & Keyboard]]></string>
 </resources>
