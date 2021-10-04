@@ -19,11 +19,4 @@ Required programs on Linux host machine
 - openssh-server
 - xdotool
 
-[<img src="https://f-droid.org/badge/get-it-on.png"
-     alt="Get it on F-Droid"
-     height="80">](https://f-droid.org/packages/com.stripe1.xmouse/)
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
-     alt="Get it on Google Play"
-     height="80">](https://play.google.com/store/apps/details?id=com.stripe1.xmouse)
-
 Like this project? Donate to me via BitCoin using this address: 17DaqbcEEG3Hn5jBv3sRjPTUUCW1eBp1Wg
