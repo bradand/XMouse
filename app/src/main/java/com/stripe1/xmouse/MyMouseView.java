@@ -187,8 +187,6 @@ public class MyMouseView extends View {
                 mX = x;
                 mY = y;
 
-                //addTextToTextView("xdotool mousemove x="+x+" y="+y);
-
                 OnXMouseMoved(rx, ry, scrolling);
             }
         }else{
@@ -356,7 +354,7 @@ public class MyMouseView extends View {
     }
 
 
-    public void OnXMouseMoved(float dx, float dy,boolean scroll) {
+    public void OnXMouseMoved(float dx, float dy, boolean scroll) {
 
 
         dx=dx*MainActivity.setting_sensitivity;
@@ -369,58 +367,53 @@ public class MyMouseView extends View {
         dx -= reX;
         dy -= reY;
 
-        String cmd="";
         if(dx <0 || dy <0){
-            cmd="xdotool mousemove_relative -- "+dx+" "+dy;
             if(scroll){
-                //Log.d("mouse move",""+MainActivity.setting_invert_scroll);
                 if(MainActivity.setting_invert_scroll){
-                    cmd="xdotool click 4";//mouse wheel
+                    MainActivity.doTool.mouseWheelUp();
                 }else {
-                    cmd = "xdotool click 5";//mouse wheel
+                    MainActivity.doTool.mouseWheelDown();
                 }
+            } else {
+                MainActivity.doTool.mouseMoveRelative(dx, dy);
             }
 
         }else{
-            cmd="xdotool mousemove_relative "+dx+" "+dy;
             if(scroll){
-                //Log.d("mouse move",""+MainActivity.setting_invert_scroll);
                 if(MainActivity.setting_invert_scroll) {
-                    cmd = "xdotool click 5";//mouse wheel
+                    MainActivity.doTool.mouseWheelDown();
                 }else{
-                    cmd="xdotool click 4";//mouse wheel
+                    MainActivity.doTool.mouseWheelUp();
                 }
+            } else {
+                MainActivity.doTool.mouseMoveRelative(dx, dy);
             }
         }
-        MainActivity.conn.executeShellCommand(cmd);
     }
 
 
     public void OnXMouseClicked(ClickType type) {
-        String cmd ="";
         switch(type){
             case Left_click:
-                cmd ="xdotool click 1";
+                MainActivity.doTool.mouseClick(IDoTool.MOUSE_LEFT);
                 break;
             case Right_click:
-                cmd ="xdotool click 3";
+                MainActivity.doTool.mouseClick(IDoTool.MOUSE_RIGHT);
                 break;
             case Drag_Down:
-                cmd ="xdotool mousedown 1";
+                MainActivity.doTool.mouseDown(IDoTool.MOUSE_LEFT);
                 break;
             case Drag_up:
-                cmd ="xdotool mouseup 1";
+                MainActivity.doTool.mouseUp(IDoTool.MOUSE_LEFT);
                 break;
             case Zoom_in:
-                cmd="xdotool key Ctrl+plus";
+                MainActivity.doTool.key("Ctrl+plus");
                 break;
             case Zoom_out:
-                cmd="xdotool key Ctrl+minus";
+                MainActivity.doTool.key("Ctrl+minus");
                 break;
             default:
                 break;
         }
-        MainActivity.conn.executeShellCommand(cmd);
-
     }
 }

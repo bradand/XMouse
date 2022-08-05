@@ -83,19 +83,12 @@ public class MyConnectionHandler {
                             //import command to execute to porperly set the display window to be used
                             //':0.0' is the default of the user currently logged in
                             executeShellCommand(MainActivity.setting_xdotool_initial);
-                            //executeExecCommand(MainActivity.setting_xdotool_initial);
-                            //executeExecCommand("xdotool mousemove_relative -- 40 -40");
-                            //executeExecCommand("ls -alh");
 
                         }else{
 
                             Toast.makeText(myActivity, "Error: "+result, Toast.LENGTH_LONG).show();
                         }
-                        //executeShellCommand("xdotool behave_screen_edge --delay 0 --quiesce 0 right mousemove_relative -- -10 0");
-                        //executeShellCommand("xdotool behave_screen_edge --delay 0 --quiesce 0 left mousemove_relative 10 0");
                     }
-                    //MyCallback.callbackCall();
-                    //showConnectionStat();
                     myInterface.performCallback();//refresh connection icon
                 }
             };
@@ -356,7 +349,6 @@ public class MyConnectionHandler {
         String cmd;
         public SshScpTask(Activity a,String W,String H){
             this.a=a;
-            //this.cmd="sizeX="+W+";sizeY="+H+";X=`xdotool getmouselocation|sed 's/x:\\(.*\\) y:\\(.*\\) screen:.*/\\1/'`;Y=`xdotool getmouselocation|sed 's/x:\\(.*\\) y:\\(.\\) screen:.*/\2/'`;X=$((X-sizeX/2));Y=$((Y-sizeY/2));import -window root -crop `echo $sizeX`x`echo $sizeY`+$X+$Y test.jpg;scp -f test.jpg";
             this.cmd="scp -f test.jpg";
 
         }
