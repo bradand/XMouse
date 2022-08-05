@@ -1,70 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true">
 
-    <Button
-        android:id="@+id/js_firstMouseButton"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:onClick="xMouseClickMouse"
-        app:layout_constraintEnd_toStartOf="@id/js_secondMouseButton"
-        app:layout_constraintStart_toEndOf="@id/js_fifthMouseButton"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/js_firstMouseButton"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:onClick="xMouseClickMouse"
+            app:layout_constraintEnd_toStartOf="@id/js_secondMouseButton"
+            app:layout_constraintStart_toEndOf="@id/js_fifthMouseButton"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-    <Button
-        android:id="@+id/js_secondMouseButton"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:onClick="xMouseClickMouse"
-        app:layout_constraintEnd_toStartOf="@id/js_thirdMouseButton"
-        app:layout_constraintStart_toEndOf="@id/js_firstMouseButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/js_secondMouseButton"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:onClick="xMouseClickMouse"
+            app:layout_constraintEnd_toStartOf="@id/js_thirdMouseButton"
+            app:layout_constraintStart_toEndOf="@id/js_firstMouseButton"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/js_thirdMouseButton"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:onClick="xMouseClickMouse"
-        app:layout_constraintEnd_toStartOf="@id/js_fourthMouseButton"
-        app:layout_constraintStart_toEndOf="@id/js_secondMouseButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/js_thirdMouseButton"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:onClick="xMouseClickMouse"
+            app:layout_constraintEnd_toStartOf="@id/js_fourthMouseButton"
+            app:layout_constraintStart_toEndOf="@id/js_secondMouseButton"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/js_fourthMouseButton"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:onClick="xMouseClickMouse"
-        app:layout_constraintEnd_toStartOf="@id/js_jsToggle"
-        app:layout_constraintStart_toEndOf="@id/js_thirdMouseButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/js_fourthMouseButton"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:onClick="xMouseClickMouse"
+            app:layout_constraintEnd_toStartOf="@id/js_jsToggle"
+            app:layout_constraintStart_toEndOf="@id/js_thirdMouseButton"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/js_fifthMouseButton"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:onClick="xMouseClickMouse"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/js_firstMouseButton"
-        app:layout_constraintTop_toTopOf="parent" />
-<!--
-    <ToggleButton
-        android:id="@+id/js_gyroToggle"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/js_fifthMouseButton"
-        app:layout_constraintTop_toTopOf="parent" />-->
-    <Button
-        android:id="@+id/js_jsToggle"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        app:layout_constraintStart_toEndOf="@id/js_fourthMouseButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/js_fifthMouseButton"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:onClick="xMouseClickMouse"
+            app:layout_constraintEnd_toStartOf="@id/js_firstMouseButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <!--
+            <ToggleButton
+                android:id="@+id/js_gyroToggle"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/js_fifthMouseButton"
+                app:layout_constraintTop_toTopOf="parent" />-->
+        <Button
+            android:id="@+id/js_jsToggle"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/js_fourthMouseButton"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
