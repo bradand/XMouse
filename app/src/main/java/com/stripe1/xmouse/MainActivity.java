@@ -12,14 +12,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -31,7 +23,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -39,6 +30,16 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 
 	public static DatabaseHandler db;
 	public static MyConnectionHandler conn;
+	public static IDoTool doTool;
 	LinearLayout mouseLayout;
 	LinearLayout keyboardLayout;
 
@@ -93,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 
 	boolean setting_autoconnect=false;
 	private static boolean setting_keyboard_locked=false;
+	public static String setting_dotool_initial="";
 	public static String setting_xdotool_initial="";
 	//static boolean setting_mouse_background=false;
 	private static boolean setting_keyboard_batch=true;
@@ -154,33 +157,30 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 	}
 	public void xMouseClickMouse(View v){
 
-		String cmd ="";
-
 		switch(v.getId()){
 			case R.id.firstMouseButton:
 			case R.id.js_firstMouseButton:
-				cmd ="xdotool click 1";
+				doTool.mouseClick(IDoTool.MOUSE_LEFT);
 				break;
 			case R.id.secondMouseButton:
 			case R.id.js_secondMouseButton:
-				cmd ="xdotool click 2";
+				doTool.mouseClick(IDoTool.MOUSE_MIDDLE);
 				break;
 			case R.id.thirdMouseButton:
 			case R.id.js_thirdMouseButton:
-				cmd ="xdotool click 3";
+				doTool.mouseClick(IDoTool.MOUSE_RIGHT);
 				break;
 			case R.id.fourthMouseButton:
 			case R.id.js_fourthMouseButton:
-				cmd ="xdotool click 4";
+				doTool.mouseWheelUp();
 				break;
 			case R.id.fifthMouseButton:
 			case R.id.js_fifthMouseButton:
-				cmd ="xdotool click 5";
+				doTool.mouseWheelDown();
 				break;
 			default:
 				break;
 		}
-		conn.executeShellCommand(cmd);
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -493,6 +493,7 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 			setting_js_dead_zone = Float.valueOf(prefs.getString("js_dead_zone_list", "0.0f"));
 
 			setting_autoconnect=prefs.getBoolean("autologin_checkbox", false);
+			setting_dotool_initial=prefs.getString("setting_dotool_initial", "xdotool");
 			setting_xdotool_initial=prefs.getString("setting_xdotool_initial", "export DISPLAY=':0' && unset HISTFILE");
 			setting_shell = prefs.getString("setting_shell", "");
 			setting_keyboard_autoclear=prefs.getBoolean("keyboard_autoclear", true);
@@ -552,6 +553,7 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 		}
 		initMenu();
 		showConnectionStat();
+		initDoTool();
 	}
 	@Override
 	protected void onPause() {
@@ -582,6 +584,17 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 		}
 	}
 
+	public void initDoTool() {
+		switch (setting_dotool_initial) {
+			case "ydotool": doTool = new YDoTool(conn); break;
+			case "xdotool": doTool = new XDoTool(conn); break;
+			default:
+				Log.d("initDoTool", "unknown value for setting_dotool_initial: " + setting_dotool_initial);
+				doTool = new XDoTool(conn);
+				break;
+		}
+	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch(keyCode){
@@ -605,14 +618,14 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 			case KeyEvent.KEYCODE_VOLUME_UP:
 				if(event.isTracking() && !event.isCanceled()){
 					//Toast.makeText(this, "Volumen Up released", Toast.LENGTH_SHORT).show();
-					conn.executeShellCommand("xdotool key XF86AudioRaiseVolume");
+					doTool.key("XF86AudioRaiseVolume");
 
 				}
 				return true;
 			case KeyEvent.KEYCODE_VOLUME_DOWN:
 				if(event.isTracking() && !event.isCanceled()){
 					//Toast.makeText(this, "Volumen Down released", Toast.LENGTH_SHORT).show();case
-					conn.executeShellCommand("xdotool key XF86AudioLowerVolume");
+					doTool.key("XF86AudioLowerVolume");
 				}
 				return true;
 
@@ -1044,87 +1057,65 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 	}
 	public LinkedList<CustomKeyboardButton> loadDefaultKeyboardLayout(Context mCont){
 		LinkedList<CustomKeyboardButton> views = new LinkedList<CustomKeyboardButton>();
-		//10 cols per row
-        /*views.add(new CustomKeyboardButton( 0,2, "F1", "xdotool key F1","#FFFFFF"));
-        views.add(new CustomKeyboardButton( 0,2, "F2", "xdotool key F2","#FFFFFF"));
-        views.add(new CustomKeyboardButton( 0,2, "F3", "xdotool key F3","#FFFFFF"));
-        views.add(new CustomKeyboardButton( 0,2, "F4", "xdotool key F4","#FFFFFF"));
-        views.add(new CustomKeyboardButton( 0,2, "F5", "xdotool key F5","#FFFFFF"));
-        views.add(new CustomKeyboardButton( 0,2, "[Prev]", "xdotool key XF86AudioPrev","#FFFFFF"));
-        views.add(new CustomKeyboardButton( 0,3, "[Pause]", "xdotool key XF86AudioPause","#FFFFFF"));
-        views.add(new CustomKeyboardButton( 0,3, "[Play]", "xdotool key XF86AudioPlay","#FFFFFF"));
-        views.add(new CustomKeyboardButton( 0,2, "[Next]", "xdotool key XF86AudioNext","#FFFFFF"));
-        views.add(new CustomKeyboardButton( 0,3, "Esc", "xdotool key Escape","#FFFFFF"));
-        views.add(new CustomKeyboardButton( 0,3, "Alt|F4", "xdotool key alt+F4","red"));
-        views.add(new CustomKeyboardButton( 0,4, "Backspace", "xdotool key BackSpace","#FFFFFF"));
-        views.add(new CustomKeyboardButton( 0,5, "<Back", "xdotool key XF86Back","#FFFFFF"));
-        views.add(new CustomKeyboardButton( 0,5, "Forward>", "xdotool key XF86Forward","#FFFFFF"));
-        views.add(new CustomKeyboardButton( 0,3, "-Mute-", "xdotool key XF86AudioMute","#FFFFFF"));
-        views.add(new CustomKeyboardButton( 0,4, "Up", "xdotool key Up","#FFFFFF"));
-        views.add(new CustomKeyboardButton( 0,3, "Enter", "xdotool key Return","#FFFFFF"));
-        views.add(new CustomKeyboardButton( 0,3, "Left", "xdotool key Left","#FFFFFF"));
-        views.add(new CustomKeyboardButton( 0,4, "Down", "xdotool key Down","#FFFFFF"));
-        views.add(new CustomKeyboardButton( 0,3, "Right", "xdotool key Right","#FFFFFF"));
-        */
 
 		//new default design by Xalalau Xubilozo, Brazil
-		views.add(new CustomKeyboardButton( 0, 2,"Esc","xdotool key Escape","#FFe6e6"));
+		views.add(new CustomKeyboardButton( 0, 2,"Esc","key Escape","#FFe6e6"));
 		views.add(new CustomKeyboardButton( 0, 3,"Minimize","xdotool windowminimize $(xdotool getactivewindow)","#9FFF80"));
 		views.add(new CustomKeyboardButton( 0, 3,"Maximize","xdotool windowsize $(xdotool getactivewindow) 100% 100%","#FFCC66"));
-		views.add(new CustomKeyboardButton( 0, 2,"X","xdotool key alt+F4","#FF9999"));
-		views.add(new CustomKeyboardButton( 0, 2,"F1","xdotool key F1","#FFFFFF"));
-		views.add(new CustomKeyboardButton( 0, 2,"F2","xdotool key F2","#FFFFFF"));
-		views.add(new CustomKeyboardButton( 0, 2,"F3","xdotool key F3","#FFFFFF"));
-		views.add(new CustomKeyboardButton( 0, 2,"F4","xdotool key F4","#FFFFFF"));
-		views.add(new CustomKeyboardButton( 0, 2,"F5","xdotool key F5","#FFFFFF"));
-		views.add(new CustomKeyboardButton( 0, 2,"F6","xdotool key F6","#FFFFFF"));
-		views.add(new CustomKeyboardButton( 0, 2,"F7","xdotool key F7","#FFFFFF"));
-		views.add(new CustomKeyboardButton( 0, 2,"F8","xdotool key F8","#FFFFFF"));
-		views.add(new CustomKeyboardButton( 0, 2,"F9","xdotool key F9","#FFFFFF"));
-		views.add(new CustomKeyboardButton( 0, 2,"F10","xdotool key F10","#FFFFFF"));
-		views.add(new CustomKeyboardButton( 0, 2,"F11","xdotool key F11","#FFFFFF"));
-		views.add(new CustomKeyboardButton( 0, 2,"F12","xdotool key F12","#FFFFFF"));
-		views.add(new CustomKeyboardButton( 0, 3,"+Brightness","xdotool key XF86MonBrightnessUp","#e6f7ff"));
-		views.add(new CustomKeyboardButton( 0, 3,"-Brightness","xdotool key XF86MonBrightnessDown","#e6f7ff"));
-		views.add(new CustomKeyboardButton( 0, 2,"Super","xdotool key super","#80d4ff"));
-		views.add(new CustomKeyboardButton( 0, 3,"+Volume","xdotool key XF86AudioRaiseVolume","#B3E6FF"));
-		views.add(new CustomKeyboardButton( 0, 3,"-Volume","xdotool key XF86AudioLowerVolume","#B3E6FF"));
-		views.add(new CustomKeyboardButton( 0, 2,"Mute","xdotool key XF86AudioMute","#B3E6FF"));
-		views.add(new CustomKeyboardButton( 0, 2,"Alt|Tab","xdotool key alt+Tab","#80d4ff"));
-		views.add(new CustomKeyboardButton( 0, 3,"[Prev]","xdotool key XF86AudioPrev","#B3E6FF"));
-		views.add(new CustomKeyboardButton( 0, 3,"[Next]","xdotool key XF86AudioNext","#B3E6FF"));
-		views.add(new CustomKeyboardButton( 0, 2,"[Play]","xdotool key XF86AudioPlay","#B3E6FF"));
-		views.add(new CustomKeyboardButton( 0, 2,"New","xdotool key ctrl+n","#E6B3FF"));
-		views.add(new CustomKeyboardButton( 0, 2,"Open","xdotool key ctrl+o","#E6B3FF"));
-		views.add(new CustomKeyboardButton( 0, 2,"Save","xdotool key ctrl+s","#E6B3FF"));
-		views.add(new CustomKeyboardButton( 0, 2,"Find","xdotool key ctrl+f","#E6B3FF"));
-		views.add(new CustomKeyboardButton( 0, 2,"Print","xdotool key ctrl+p","#E6B3FF"));
-		views.add(new CustomKeyboardButton( 0, 4,"Select all","xdotool key ctrl+a","#E6B3FF"));
-		views.add(new CustomKeyboardButton( 0, 3,"+Zoom","xdotool key ctrl+plus","#E6B3FF"));
-		views.add(new CustomKeyboardButton( 0, 3,"-Zoom","xdotool key ctrl+minus","#E6B3FF"));
-		views.add(new CustomKeyboardButton( 0, 2,"Undo","xdotool key ctrl+z","#F7E6FF"));
-		views.add(new CustomKeyboardButton( 0, 2,"Redo","xdotool key ctrl+y","#F7E6FF"));
-		views.add(new CustomKeyboardButton( 0, 2,"Copy","xdotool key ctrl+c","#F7E6FF"));
-		views.add(new CustomKeyboardButton( 0, 2,"Crop","xdotool key ctrl+x","#F7E6FF"));
-		views.add(new CustomKeyboardButton( 0, 2,"Paste","xdotool key ctrl+v","#F7E6FF"));
-		views.add(new CustomKeyboardButton( 0, 3,"PgUp","xdotool key Prior","#FFFFFF"));
-		views.add(new CustomKeyboardButton( 0, 3,"PgDown","xdotool key Next","#FFFFFF"));
-		views.add(new CustomKeyboardButton( 0, 4,"Delete","xdotool key Delete","#FFFFFF"));
-		views.add(new CustomKeyboardButton( 0, 2,"Home","xdotool key Home","#FFFFFF"));
-		views.add(new CustomKeyboardButton( 0, 2,"Up","xdotool key Up","#FFFFB3"));
-		views.add(new CustomKeyboardButton( 0, 2,"End","xdotool key End","#FFFFFF"));
-		views.add(new CustomKeyboardButton( 0, 4,"Backspace","xdotool key BackSpace","#FFFFFF"));
-		views.add(new CustomKeyboardButton( 0, 2,"Left","xdotool key Left","#FFFFB3"));
-		views.add(new CustomKeyboardButton( 0, 2,"Down","xdotool key Down","#FFFFB3"));
-		views.add(new CustomKeyboardButton( 0, 2,"Right","xdotool key Right","#FFFFB3"));
-		views.add(new CustomKeyboardButton( 0, 4,"Enter","xdotool key Return","#FFFFFF"));
-		views.add(new CustomKeyboardButton( 0, 5,"<Back","xdotool key XF86Back","#f2e5d9"));
-		views.add(new CustomKeyboardButton( 0, 5,"Forward>","xdotool key XF86Forward","#f2e5d9"));
-		views.add(new CustomKeyboardButton( 0, 1,"+","xdotool key ctrl+t","#e6ccb3"));
-		views.add(new CustomKeyboardButton( 0, 1,"-","xdotool key ctrl+w","#e6ccb3"));
-		views.add(new CustomKeyboardButton( 0, 4,"Reopen Last Tab","xdotool key ctrl+shift+t","#e6ccb3"));
-		views.add(new CustomKeyboardButton( 0, 2,"<-","xdotool key ctrl+shift+Tab","#e6ccb3"));
-		views.add(new CustomKeyboardButton( 0, 2,"->","xdotool key ctrl+Tab","#e6ccb3"));
+		views.add(new CustomKeyboardButton( 0, 2,"X","key alt+F4","#FF9999"));
+		views.add(new CustomKeyboardButton( 0, 2,"F1","key F1","#FFFFFF"));
+		views.add(new CustomKeyboardButton( 0, 2,"F2","key F2","#FFFFFF"));
+		views.add(new CustomKeyboardButton( 0, 2,"F3","key F3","#FFFFFF"));
+		views.add(new CustomKeyboardButton( 0, 2,"F4","key F4","#FFFFFF"));
+		views.add(new CustomKeyboardButton( 0, 2,"F5","key F5","#FFFFFF"));
+		views.add(new CustomKeyboardButton( 0, 2,"F6","key F6","#FFFFFF"));
+		views.add(new CustomKeyboardButton( 0, 2,"F7","key F7","#FFFFFF"));
+		views.add(new CustomKeyboardButton( 0, 2,"F8","key F8","#FFFFFF"));
+		views.add(new CustomKeyboardButton( 0, 2,"F9","key F9","#FFFFFF"));
+		views.add(new CustomKeyboardButton( 0, 2,"F10","key F10","#FFFFFF"));
+		views.add(new CustomKeyboardButton( 0, 2,"F11","key F11","#FFFFFF"));
+		views.add(new CustomKeyboardButton( 0, 2,"F12","key F12","#FFFFFF"));
+		views.add(new CustomKeyboardButton( 0, 3,"+Brightness","key XF86MonBrightnessUp","#e6f7ff"));
+		views.add(new CustomKeyboardButton( 0, 3,"-Brightness","key XF86MonBrightnessDown","#e6f7ff"));
+		views.add(new CustomKeyboardButton( 0, 2,"Super","key super","#80d4ff"));
+		views.add(new CustomKeyboardButton( 0, 3,"+Volume","key XF86AudioRaiseVolume","#B3E6FF"));
+		views.add(new CustomKeyboardButton( 0, 3,"-Volume","key XF86AudioLowerVolume","#B3E6FF"));
+		views.add(new CustomKeyboardButton( 0, 2,"Mute","key XF86AudioMute","#B3E6FF"));
+		views.add(new CustomKeyboardButton( 0, 2,"Alt|Tab","key alt+Tab","#80d4ff"));
+		views.add(new CustomKeyboardButton( 0, 3,"[Prev]","key XF86AudioPrev","#B3E6FF"));
+		views.add(new CustomKeyboardButton( 0, 3,"[Next]","key XF86AudioNext","#B3E6FF"));
+		views.add(new CustomKeyboardButton( 0, 2,"[Play]","key XF86AudioPlay","#B3E6FF"));
+		views.add(new CustomKeyboardButton( 0, 2,"New","key ctrl+n","#E6B3FF"));
+		views.add(new CustomKeyboardButton( 0, 2,"Open","key ctrl+o","#E6B3FF"));
+		views.add(new CustomKeyboardButton( 0, 2,"Save","key ctrl+s","#E6B3FF"));
+		views.add(new CustomKeyboardButton( 0, 2,"Find","key ctrl+f","#E6B3FF"));
+		views.add(new CustomKeyboardButton( 0, 2,"Print","key ctrl+p","#E6B3FF"));
+		views.add(new CustomKeyboardButton( 0, 4,"Select all","key ctrl+a","#E6B3FF"));
+		views.add(new CustomKeyboardButton( 0, 3,"+Zoom","key ctrl+plus","#E6B3FF"));
+		views.add(new CustomKeyboardButton( 0, 3,"-Zoom","key ctrl+minus","#E6B3FF"));
+		views.add(new CustomKeyboardButton( 0, 2,"Undo","key ctrl+z","#F7E6FF"));
+		views.add(new CustomKeyboardButton( 0, 2,"Redo","key ctrl+y","#F7E6FF"));
+		views.add(new CustomKeyboardButton( 0, 2,"Copy","key ctrl+c","#F7E6FF"));
+		views.add(new CustomKeyboardButton( 0, 2,"Crop","key ctrl+x","#F7E6FF"));
+		views.add(new CustomKeyboardButton( 0, 2,"Paste","key ctrl+v","#F7E6FF"));
+		views.add(new CustomKeyboardButton( 0, 3,"PgUp","key Prior","#FFFFFF"));
+		views.add(new CustomKeyboardButton( 0, 3,"PgDown","key Next","#FFFFFF"));
+		views.add(new CustomKeyboardButton( 0, 4,"Delete","key Delete","#FFFFFF"));
+		views.add(new CustomKeyboardButton( 0, 2,"Home","key Home","#FFFFFF"));
+		views.add(new CustomKeyboardButton( 0, 2,"Up","key Up","#FFFFB3"));
+		views.add(new CustomKeyboardButton( 0, 2,"End","key End","#FFFFFF"));
+		views.add(new CustomKeyboardButton( 0, 4,"Backspace","key BackSpace","#FFFFFF"));
+		views.add(new CustomKeyboardButton( 0, 2,"Left","key Left","#FFFFB3"));
+		views.add(new CustomKeyboardButton( 0, 2,"Down","key Down","#FFFFB3"));
+		views.add(new CustomKeyboardButton( 0, 2,"Right","key Right","#FFFFB3"));
+		views.add(new CustomKeyboardButton( 0, 4,"Enter","key Return","#FFFFFF"));
+		views.add(new CustomKeyboardButton( 0, 5,"<Back","key XF86Back","#f2e5d9"));
+		views.add(new CustomKeyboardButton( 0, 5,"Forward>","key XF86Forward","#f2e5d9"));
+		views.add(new CustomKeyboardButton( 0, 1,"+","key ctrl+t","#e6ccb3"));
+		views.add(new CustomKeyboardButton( 0, 1,"-","key ctrl+w","#e6ccb3"));
+		views.add(new CustomKeyboardButton( 0, 4,"Reopen Last Tab","key ctrl+shift+t","#e6ccb3"));
+		views.add(new CustomKeyboardButton( 0, 2,"<-","key ctrl+shift+Tab","#e6ccb3"));
+		views.add(new CustomKeyboardButton( 0, 2,"->","key ctrl+Tab","#e6ccb3"));
 
 		return views;
 	}
@@ -1251,7 +1242,7 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 			t = t.replaceAll("'", "'\\\"'\\\"'"); // -> xdotool type ''"'"''
 			t = t.replaceAll("\"", "\\\"");       // -> xdotool type '"'
 
-			conn.executeShellCommand("xdotool type '" + t + "'");
+			doTool.type("'" + t + "'");
 			if(setting_keyboard_autoclear){
 				ET.setText("");
 			}
@@ -1281,26 +1272,11 @@ public class MainActivity extends AppCompatActivity implements MyInterface, Navi
 			gyroscopeY*=setting_gyro_y_sensitivity;
 			gyroscopeZ*=setting_gyro_z_sensitivity;
 
-			String cmd;
-
 			ToggleButton mouseSwitch=findViewById(R.id.gyroToggle);
 			if (mouseSwitch.isChecked()) {
 				if (Math.abs(gyroscopeZ) >= setting_gyro_z_threshold || Math.abs(gyroscopeY) >= setting_gyro_y_threshold) {
-					if (gyroscopeZ < 0 || gyroscopeY < 0) {
-						cmd = "xdotool mousemove_relative -- " + (gyroscopeZ) * -15 + " " + (gyroscopeY) * -15;
-					} else {
-
-						cmd = "xdotool mousemove_relative " + (gyroscopeZ) * -15 + " " + (gyroscopeY) * -15;
-					}
-					conn.executeShellCommand(cmd);
+					doTool.mouseMoveRelative(gyroscopeZ * -15, gyroscopeY * -15);
 				}
-				/*if (gyroscopeZ >= 3) {
-					cmd = "xdotool click 4";
-					conn.executeShellCommand(cmd);
-				} else if (gyroscopeZ <= -3) {
-					cmd = "xdotool click 5";
-					conn.executeShellCommand(cmd);
-				}*/
 			}
 		}
 	}

@@ -39,6 +39,14 @@
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="@string/pref_title_shell" />
+    <ListPreference
+        android:defaultValue="xdotool"
+        android:entries="@array/pref_dotool_list_titles"
+        android:entryValues="@array/pref_dotool_list_titles"
+        android:key="setting_dotool_initial"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_dotool_initial" />
     <EditTextPreference
         android:defaultValue="@string/pref_default_xdotool_initial"
         android:key="setting_xdotool_initial"

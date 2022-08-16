@@ -44,10 +44,16 @@
     <string name="pref_description_keyboard_autoclear">Clear keyboard input on send</string>
     <string name="pref_title_keyboard_autoclear">Auto clear keystrokes</string>
     
+    <string name="pref_default_dotool_initial">xdotool</string>
+    <string name="pref_title_dotool_initial">Automatization tool</string>
     <string name="pref_default_xdotool_initial">export DISPLAY=\':0\' &amp;&amp; unset HISTFILE</string>
     <string name="pref_title_xdotool_initial">Initialization command</string>
     <string name="pref_title_shell">Login Shell (empty for default)</string>
 
+    <string-array name="pref_dotool_list_titles">
+        <item>xdotool</item>
+        <item>ydotool</item>
+    </string-array>
     <string-array name="pref_sensitivity_list_titles">
         <item>Tiny, .25X</item>
         <item>Lower, .33X</item>

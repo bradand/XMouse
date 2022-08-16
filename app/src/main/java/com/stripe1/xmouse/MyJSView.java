@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -138,12 +137,6 @@ public class MyJSView extends View {
         dx -= reX;
         dy -= reY;
 
-        String cmd="";
-        if(dx <0 || dy <0){
-            cmd="xdotool mousemove_relative -- "+dx+" "+dy;
-        }else{
-            cmd="xdotool mousemove_relative "+dx+" "+dy;
-        }
-        MainActivity.conn.executeShellCommand(cmd);
+        MainActivity.doTool.mouseMoveRelative(dx, dy);
     }
 }

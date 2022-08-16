@@ -11,11 +11,11 @@ public class CustomKeyboardButton {
 	String mTitle;
 	String mCommand;
 	String mColor="#FFFFFF";
-	public CustomKeyboardButton(int icon, int spans, String title, String desc, String color){
+	public CustomKeyboardButton(int icon, int spans, String title, String command, String color){
 		mIcon=icon;
 		mSpans=spans;
 		mTitle= title;
-		mCommand=desc;
+		mCommand=command;
 		if(color!=null){
 			mColor=color;
 		}
